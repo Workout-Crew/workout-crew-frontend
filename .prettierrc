@@ -1,0 +1,9 @@
+{
+  "plugins": ["@trivago/prettier-plugin-sort-imports"],
+  "printWidth": 80,
+  "singleQuote": true,
+  "arrowParens": "avoid",
+  "semi": false,
+  "importOrder": ["^react", "^next", "<THIRD_PARTY_MODULES>"],
+  "importOrderSortSpecifiers": true
+}

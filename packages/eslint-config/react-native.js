@@ -8,7 +8,6 @@ module.exports = {
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:prettier/recommended",
-    require.resolve("@vercel/style-guide/eslint/next"),
     "turbo",
   ],
   globals: {
@@ -16,9 +15,7 @@ module.exports = {
     JSX: true,
   },
   env: {
-    es6: true,
-    node: true,
-    browser: true,
+    browser: false,
   },
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -42,4 +39,8 @@ module.exports = {
     "node_modules/",
   ],
   overrides: [{ files: ["*.js?(x)", "*.ts?(x)"] }],
+  rules: {
+    "react/no-unstable-nested-components": "off",
+    "react-native/no-inline-styles": "off",
+  },
 };
