@@ -4,6 +4,6 @@
   "singleQuote": true,
   "arrowParens": "avoid",
   "semi": false,
-  "importOrder": ["^react", "^next", "<THIRD_PARTY_MODULES>"],
+  "importOrder": ["^react", "^next", "^@", "<THIRD_PARTY_MODULES>"],
   "importOrderSortSpecifiers": true
 }
