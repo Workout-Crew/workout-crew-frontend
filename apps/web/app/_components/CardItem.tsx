@@ -22,15 +22,19 @@ export default function CardItem({
   return (
     <div
       style={{
-        padding: 10,
-        borderRadius: 4,
+        display: 'flex',
+        flexDirection: 'column',
+        padding: 12,
+        borderRadius: 8,
         background: SHAPE_COLOR.depth_1,
         ...style,
       }}
       {...props}
     >
       <Text typography="title2">{title}</Text>
-      <Text typography="label_regular">{description}</Text>
+      <Text typography="caption" style={{ wordBreak: 'keep-all' }}>
+        {description}
+      </Text>
 
       <Spacing size={16} />
 
@@ -40,7 +44,8 @@ export default function CardItem({
           display: 'flex',
           alignItems: 'center',
           gap: 3,
-          margin: '0 auto',
+          marginTop: 'auto',
+          padding: 0,
           border: 0,
           background: 'none',
         }}
