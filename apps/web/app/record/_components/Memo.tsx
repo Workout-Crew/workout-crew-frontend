@@ -54,6 +54,7 @@ export default function Memo({ initialContents = '' }: Props) {
           letterSpacing: '-0.5px',
           color: FONT_COLOR.black_primary,
           outline: 'none',
+          resize: 'none',
         }}
       />
     </Stack>

@@ -5,7 +5,7 @@ import Text from './Text'
 
 interface Props {
   title: string
-  description: string
+  description: string | null
   onClick: MouseEventHandler<HTMLDivElement>
 }
 
@@ -26,9 +26,11 @@ export default function ListItem({ title, description, onClick }: Props) {
         <Text typography="title2" style={createTextOverflowStyle(1)}>
           {title}
         </Text>
-        <Text typography="body2" style={createTextOverflowStyle(1)}>
-          {description}
-        </Text>
+        {description && (
+          <Text typography="body2" style={createTextOverflowStyle(1)}>
+            {description}
+          </Text>
+        )}
       </div>
 
       <Icon type="chevronRight" size={18} style={{ flexShrink: 0 }} />

@@ -10,7 +10,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   description: string
   label: string
   image: string | null
-  onClick: MouseEventHandler<HTMLDivElement>
+  onClick?: MouseEventHandler<HTMLDivElement>
 }
 
 export default function PostItem({

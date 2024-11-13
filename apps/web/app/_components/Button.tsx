@@ -1,3 +1,5 @@
+'use client'
+
 import { ButtonHTMLAttributes, CSSProperties } from 'react'
 import { BORDER_COLOR, FONT_COLOR, SHAPE_COLOR } from '../_styles/color'
 import Text from './Text'

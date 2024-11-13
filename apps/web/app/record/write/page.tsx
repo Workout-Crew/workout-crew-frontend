@@ -4,7 +4,7 @@ import Spacing from '../../_components/Spacing'
 import Stack from '../../_components/Stack'
 import Text from '../../_components/Text'
 import { BORDER_COLOR, FONT_COLOR } from '../../_styles/color'
-import Gallery from '../_components/Gallery'
+import ImageList from '../_components/ImageList'
 import Intensity from '../_components/Intensity'
 import Memo from '../_components/Memo'
 
@@ -41,7 +41,7 @@ export default function RecordWritePage() {
       <Stack style={{ gap: 16, padding: 0 }}>
         <Memo />
         <Intensity />
-        <Gallery />
+        <ImageList />
 
         <button
           style={{
