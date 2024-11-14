@@ -2,6 +2,7 @@
 #import "RNBootSplash.h"
 
 #import <React/RCTBundleURLProvider.h>
+#import <RNKakaoLogins.h>
 
 @implementation AppDelegate
 
@@ -18,6 +19,12 @@
   self.initialProps = @{};
 
   return [super application:application didFinishLaunchingWithOptions:launchOptions];
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(nonnull NSURL *)url options:(nonnull NSDictionary<NSString *,id> *)options {
+  if([RNKakaoLogins isKakaoTalkLoginUrl:url]) {
+    return [RNKakaoLogins handleOpenUrl: url];
+  }
 }
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
