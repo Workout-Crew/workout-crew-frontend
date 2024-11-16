@@ -1,14 +1,14 @@
 'use client'
 
 import { createLinkBridgeProvider } from '@webview-bridge/react'
-import { AuthBridge } from 'mobile'
+import { RegisterUserDataBridge } from 'mobile'
 
-export const { BridgeProvider, useBridgeStore } =
-  createLinkBridgeProvider<AuthBridge>({
+export const { bridge, BridgeProvider, useBridgeStore } =
+  createLinkBridgeProvider<RegisterUserDataBridge>({
     throwOnError: true,
     timeout: 1000 * 60 * 60 * 24,
     initialBridge: {
-      login: async () => ({
+      registerUserData: async () => ({
         status: false,
         error: new Error('Bridge is not ready'),
       }),

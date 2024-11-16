@@ -1,11 +1,16 @@
+'use client'
+
 import Image from 'next/image'
 import MedalImage from '../../_assets/medal/gold_medal.png'
 import Button from '../../_components/Button'
 import Spacing from '../../_components/Spacing'
 import Stack from '../../_components/Stack'
 import Text from '../../_components/Text'
+import { useBridgeStore } from './provider'
 
 export default function RegisterOnboardingPage() {
+  const handleComplete = useBridgeStore(store => store.handleComplete)
+
   return (
     <Stack style={{ height: '100%' }}>
       <Text typography="display1">
@@ -25,7 +30,12 @@ export default function RegisterOnboardingPage() {
         style={{ margin: '0 auto' }}
       />
 
-      <Button size={48} variant="primary" style={{ margin: 'auto 0 16px' }}>
+      <Button
+        size={48}
+        variant="primary"
+        onClick={() => handleComplete()}
+        style={{ margin: 'auto 0 16px' }}
+      >
         시작하기
       </Button>
     </Stack>

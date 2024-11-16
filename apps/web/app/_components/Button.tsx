@@ -51,6 +51,7 @@ export default function Button({
   size,
   style,
   variant,
+  onClick,
   ...props
 }: Props) {
   const isBigPrimary = size === 48 && variant === 'primary'
@@ -73,6 +74,7 @@ export default function Button({
         }),
         ...style,
       }}
+      onClick={!disabled ? onClick : undefined}
       {...props}
     >
       <Text
