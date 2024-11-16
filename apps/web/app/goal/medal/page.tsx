@@ -27,7 +27,7 @@ const METADATA_BY_TYPE: Record<
   },
 }
 
-export default function ListPage() {
+export default function MedalPage() {
   return (
     <Stack style={{ gap: 32, padding: 16 }}>
       {Object.entries(MOCK_DATA).map(([type, { gold, silver, bronze }]) => {

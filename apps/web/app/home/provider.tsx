@@ -1,14 +1,20 @@
 'use client'
 
 import { createLinkBridgeProvider } from '@webview-bridge/react'
-import { OnboardingBridge } from 'application'
+import { HomeBridge } from 'application'
 
 export const { bridge, BridgeProvider, useBridgeStore } =
-  createLinkBridgeProvider<OnboardingBridge>({
+  createLinkBridgeProvider<HomeBridge>({
     throwOnError: true,
     timeout: 1000 * 60 * 60 * 24,
     initialBridge: {
-      handleComplete: async () => {
+      navigateWritePage: async () => {
+        throw new Error('Bridge is not ready')
+      },
+      navigateRecordPage: async () => {
+        throw new Error('Bridge is not ready')
+      },
+      navigateMedalPage: async () => {
         throw new Error('Bridge is not ready')
       },
     },

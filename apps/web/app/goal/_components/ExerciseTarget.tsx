@@ -4,11 +4,20 @@ import Button from '../../_components/Button'
 import Stack from '../../_components/Stack'
 import Text from '../../_components/Text'
 import { FONT_COLOR, SHAPE_COLOR } from '../../_styles/color'
+import { useBridgeStore } from '../provider'
 
 const DUMMY_NICKNAME = '홍길동'
 const DUMMY_TARGET = '근육이 있는 몸 만들기'
 
 export default function ExerciseTarget() {
+  const selectGoal = useBridgeStore(store => store.selectGoal)
+
+  const handleClick = async () => {
+    const goal = await selectGoal()
+
+    console.log(goal)
+  }
+
   return (
     <Stack style={{ gap: 20, padding: 16 }}>
       <Text typography="display2">
@@ -34,8 +43,8 @@ export default function ExerciseTarget() {
         루틴과 강도를 추천드리기 위해 사용돼요.
       </Text>
 
-      <Button size={48} variant="primary">
-        오늘의 운동 기록하기
+      <Button size={48} variant="primary" onClick={handleClick}>
+        운동 목표 변경하기
       </Button>
     </Stack>
   )

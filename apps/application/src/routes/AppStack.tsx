@@ -1,7 +1,11 @@
 import { useEffect } from 'react'
+import { Text } from 'react-native'
 import { StackActions } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import Header from '../components/Header'
+import HeaderMenu from '../components/HeaderMenu'
+import MedalScreen from '../screens/Medal'
+import RecordWriteScreen from '../screens/RecordWrite'
 import { useAuthStore } from '../store/auth'
 import { fetch } from '../utils/fetch'
 import HomeTab from './HomeTab'
@@ -11,11 +15,15 @@ import { Screens, navigationRef } from './types'
 export const AppStackScreens = {
   ROOT: 'Root',
   REGISTER: 'Register',
+  MEDAL: 'Medal',
+  RECORD_WRITE: 'RecordWrite',
 } as const
 
 export type AppStackParamList = {
   [AppStackScreens.ROOT]: undefined
   [AppStackScreens.REGISTER]: undefined
+  [AppStackScreens.MEDAL]: undefined
+  [AppStackScreens.RECORD_WRITE]: { date: Date }
 }
 
 const Stack = createNativeStackNavigator<AppStackParamList>()
@@ -75,6 +83,36 @@ export default function AppStack() {
         name={AppStackScreens.REGISTER}
         component={RegisterStack}
         options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name={AppStackScreens.MEDAL}
+        component={MedalScreen}
+        options={{
+          headerLeft: () => (
+            <HeaderMenu>
+              {({ goBack }) => (
+                <HeaderMenu.MenuItem type="prev" onPress={goBack} />
+              )}
+            </HeaderMenu>
+          ),
+          headerTitle: () => (
+            <HeaderMenu.Title>전체 미션 목록</HeaderMenu.Title>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name={AppStackScreens.RECORD_WRITE}
+        component={RecordWriteScreen}
+        options={{
+          headerLeft: () => (
+            <HeaderMenu>
+              {({ goBack }) => (
+                <HeaderMenu.MenuItem type="prev" onPress={goBack} />
+              )}
+            </HeaderMenu>
+          ),
+          headerTitle: () => <HeaderMenu.Title>기록 추가하기</HeaderMenu.Title>,
+        }}
       />
     </Stack.Navigator>
   )

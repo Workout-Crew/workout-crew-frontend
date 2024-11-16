@@ -47,7 +47,15 @@ export default function HeaderMenu({ children }: HeaderMenuProps) {
 
 HeaderMenu.Title = function Title({ children }: TitleProps) {
   return (
-    <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#151517' }}>
+    <Text
+      style={{
+        fontSize: 16,
+        fontWeight: 700,
+        lineHeight: 24,
+        letterSpacing: -0.5,
+        color: '#151517',
+      }}
+    >
       {children}
     </Text>
   )

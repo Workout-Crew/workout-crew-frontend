@@ -5,22 +5,16 @@ import {
 import { Screens, navigationRef } from '../routes/types'
 import { createUri } from '../utils/createUri'
 
-type RecordActionType = {
-  navigateWritePage: (_date: Date) => Promise<void>
-}
+type MedalActionType = {}
 
-export const bridge = createBridge<RecordActionType>({
-  async navigateWritePage(date: Date) {
-    navigationRef.navigate(Screens.RECORD_WRITE, { date })
-  },
-})
+export const bridge = createBridge<MedalActionType>({})
 
 const { WebView } = createWebView({ bridge, debug: __DEV__ })
 
-export default function RecordScreen() {
+export default function MedalScreen() {
   return (
     <WebView
-      source={{ uri: createUri('record') }}
+      source={{ uri: createUri('goal/medal') }}
       style={{ height: '100%', flex: 1, width: '100%' }}
     />
   )

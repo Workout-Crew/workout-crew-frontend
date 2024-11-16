@@ -4,6 +4,7 @@ import BottomLink from '../../_components/BottomLink'
 import MissionItem from '../../_components/MissionItem'
 import Stack from '../../_components/Stack'
 import Text from '../../_components/Text'
+import { useBridgeStore } from '../provider'
 
 const MOCK_DATA = [
   {
@@ -30,6 +31,8 @@ const MOCK_DATA = [
 ] as const
 
 export default function AttainableMissions() {
+  const navigateMedalPage = useBridgeStore(store => store.navigateMedalPage)
+
   return (
     <Stack style={{ gap: 20, padding: 16 }}>
       <Text typography="title1">달성 가능한 미션</Text>
@@ -46,7 +49,7 @@ export default function AttainableMissions() {
         ))}
       </Stack>
 
-      <BottomLink onClick={() => null}>운동 기록하기</BottomLink>
+      <BottomLink onClick={() => navigateMedalPage()}>더보기</BottomLink>
     </Stack>
   )
 }

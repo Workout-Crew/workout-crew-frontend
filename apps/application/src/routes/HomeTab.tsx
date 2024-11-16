@@ -5,22 +5,22 @@ import HeaderMenu from '../components/HeaderMenu'
 import TabBarIcon from '../components/TabBarIcon'
 import TabBarLabel from '../components/TabBarLabel'
 import CommunityScreen from '../screens/Community'
+import GoalScreen from '../screens/Goal'
 import HomeScreen from '../screens/Home'
 import RecordScreen from '../screens/Record'
-import TargetScreen from '../screens/Target'
 import { useAuthStore } from '../store/auth'
 
 export const HomeTabScreens = {
   HOME: 'Home',
   RECORD: 'Record',
-  TARGET: 'Target',
+  GOAL: 'Goal',
   COMMUNITY: 'Community',
 } as const
 
 export type HomeTabParamList = {
   [HomeTabScreens.HOME]: undefined
   [HomeTabScreens.RECORD]: undefined
-  [HomeTabScreens.TARGET]: undefined
+  [HomeTabScreens.GOAL]: undefined
   [HomeTabScreens.COMMUNITY]: undefined
 }
 
@@ -33,8 +33,8 @@ export default function HomeTab() {
     <Tab.Navigator
       screenOptions={{
         header: props => <Header {...props} />,
-        headerRight: () => <Logo width={97} height={28} />,
-        headerLeft: () => (
+        headerLeft: () => <Logo width={97} height={28} />,
+        headerRight: () => (
           <HeaderMenu>
             <HeaderMenu.MenuItem type="logout" onPress={handleLogout} />
           </HeaderMenu>
@@ -64,12 +64,12 @@ export default function HomeTab() {
         }}
       />
       <Tab.Screen
-        name={HomeTabScreens.TARGET}
-        component={TargetScreen}
+        name={HomeTabScreens.GOAL}
+        component={GoalScreen}
         options={{
           tabBarLabel: props => <TabBarLabel {...props}>내 목표</TabBarLabel>,
           tabBarIcon: props => (
-            <TabBarIcon {...props} type={HomeTabScreens.TARGET} />
+            <TabBarIcon {...props} type={HomeTabScreens.GOAL} />
           ),
         }}
       />

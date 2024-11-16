@@ -4,8 +4,7 @@ import {
 } from '@webview-bridge/react-native'
 import { Screens, navigationRef } from '../routes/types'
 import { createUri } from '../utils/createUri'
-
-type GoalType = 'GAIN_MUSCLE' | 'LOSE_BODY_FAT'
+import { GoalType } from '../utils/types'
 
 type RegisterGoalActionType = {
   registerGoal(

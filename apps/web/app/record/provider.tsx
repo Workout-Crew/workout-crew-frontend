@@ -1,17 +1,16 @@
 'use client'
 
 import { createLinkBridgeProvider } from '@webview-bridge/react'
-import { RegisterUserDataBridge } from 'application'
+import { RecordBridge } from 'application'
 
 export const { bridge, BridgeProvider, useBridgeStore } =
-  createLinkBridgeProvider<RegisterUserDataBridge>({
+  createLinkBridgeProvider<RecordBridge>({
     throwOnError: true,
     timeout: 1000 * 60 * 60 * 24,
     initialBridge: {
-      registerUserData: async () => ({
-        status: false,
-        error: new Error('Bridge is not ready'),
-      }),
+      navigateWritePage: async () => {
+        throw new Error('Bridge is not ready')
+      },
     },
     onFallback: () => {
       throw new Error('Cannot load bridge')

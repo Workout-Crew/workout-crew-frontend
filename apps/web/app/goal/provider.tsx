@@ -1,16 +1,17 @@
 'use client'
 
 import { createLinkBridgeProvider } from '@webview-bridge/react'
-import { OnboardingBridge } from 'application'
+import { GoalBridge } from 'application'
 
-export const { bridge, BridgeProvider, useBridgeStore } =
-  createLinkBridgeProvider<OnboardingBridge>({
+export const { BridgeProvider, useBridgeStore } =
+  createLinkBridgeProvider<GoalBridge>({
     throwOnError: true,
     timeout: 1000 * 60 * 60 * 24,
     initialBridge: {
-      handleComplete: async () => {
+      selectGoal: async () => {
         throw new Error('Bridge is not ready')
       },
+      navigateMedalPage: async () => undefined,
     },
     onFallback: () => {
       throw new Error('Cannot load bridge')

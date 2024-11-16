@@ -10,6 +10,7 @@ import Button from '../../_components/Button'
 import Stack from '../../_components/Stack'
 import Text from '../../_components/Text'
 import { SHAPE_COLOR } from '../../_styles/color'
+import { useBridgeStore } from '../provider'
 
 const DUMMY_NICKNAME = '홍길동'
 
@@ -60,6 +61,7 @@ const INTROS: Array<{
 ]
 
 export default function Intro() {
+  const navigateWritePage = useBridgeStore(store => store.navigateWritePage)
   const { image, getTitle } = INTROS[Math.floor(Math.random() * INTROS.length)]!
 
   return (
@@ -85,7 +87,11 @@ export default function Intro() {
         </Text>
       </div>
 
-      <Button size={48} variant="primary" onClick={() => null}>
+      <Button
+        size={48}
+        variant="primary"
+        onClick={() => navigateWritePage(new Date())}
+      >
         오늘의 운동 기록하기
       </Button>
     </Stack>

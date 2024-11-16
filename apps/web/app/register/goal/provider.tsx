@@ -1,7 +1,7 @@
 'use client'
 
 import { createLinkBridgeProvider } from '@webview-bridge/react'
-import { RegisterGoalBridge } from 'mobile'
+import { RegisterGoalBridge } from 'application'
 
 export const { bridge, BridgeProvider, useBridgeStore } =
   createLinkBridgeProvider<RegisterGoalBridge>({
@@ -14,6 +14,6 @@ export const { bridge, BridgeProvider, useBridgeStore } =
       }),
     },
     onFallback: () => {
-      throw new Error()
+      throw new Error('Cannot load bridge')
     },
   })

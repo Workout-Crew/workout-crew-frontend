@@ -1,7 +1,7 @@
 'use client'
 
 import { createLinkBridgeProvider } from '@webview-bridge/react'
-import { RegisterNicknameBridge } from 'mobile'
+import { RegisterNicknameBridge } from 'application'
 
 export const { BridgeProvider, useBridgeStore } =
   createLinkBridgeProvider<RegisterNicknameBridge>({
@@ -14,6 +14,6 @@ export const { BridgeProvider, useBridgeStore } =
       }),
     },
     onFallback: () => {
-      throw new Error()
+      throw new Error('Cannot load bridge')
     },
   })

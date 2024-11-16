@@ -30,7 +30,7 @@ export default function RegisterStack() {
     <Stack.Navigator
       screenOptions={{
         header: props => <Header {...props} />,
-        headerRight: () => (
+        headerLeft: () => (
           <HeaderMenu>
             {({ canGoBack, goBack }) => (
               <HeaderMenu.MenuItem

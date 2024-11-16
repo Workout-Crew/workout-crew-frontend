@@ -7,8 +7,8 @@ import HomeIcon from '../assets/home.svg'
 import HomeFillIcon from '../assets/home_fill.svg'
 import RecordIcon from '../assets/record.svg'
 import RecordFillIcon from '../assets/record_fill.svg'
-import TargetIcon from '../assets/target.svg'
-import TargetFillIcon from '../assets/target_fill.svg'
+import GoalIcon from '../assets/target.svg'
+import GoalFillIcon from '../assets/target_fill.svg'
 import { HomeTabScreens } from '../routes/HomeTab'
 
 type HomeTabScreenType = (typeof HomeTabScreens)[keyof typeof HomeTabScreens]
@@ -21,7 +21,7 @@ interface Props {
 const ICON: Record<HomeTabScreenType, (focused: boolean) => FC<SvgProps>> = {
   Home: focused => (focused ? HomeFillIcon : HomeIcon),
   Record: focused => (focused ? RecordFillIcon : RecordIcon),
-  Target: focused => (focused ? TargetFillIcon : TargetIcon),
+  Goal: focused => (focused ? GoalFillIcon : GoalIcon),
   Community: focused => (focused ? CommunityFillIcon : CommunityIcon),
 }
 
