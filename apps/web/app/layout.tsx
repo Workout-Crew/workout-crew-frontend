@@ -1,6 +1,7 @@
 import { ReactNode } from 'react'
 import localFont from 'next/font/local'
 import './_styles/global.css'
+import RootProvider from './provider'
 
 const pretendard = localFont({
   src: './_styles/pretendard.woff2',
@@ -22,7 +23,9 @@ export default function RootLayout({ children }: Props) {
         />
       </head>
 
-      <body>{children}</body>
+      <body>
+        <RootProvider>{children}</RootProvider>
+      </body>
     </html>
   )
 }

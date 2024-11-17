@@ -2,6 +2,7 @@
 
 import { ReactNode } from 'react'
 import Image, { StaticImageData } from 'next/image'
+import { useQuery } from '@tanstack/react-query'
 import ChartImage from '../../_assets/intro/chart.png'
 import FireImage from '../../_assets/intro/fire.png'
 import RocketImage from '../../_assets/intro/rocket.png'
@@ -11,8 +12,6 @@ import Stack from '../../_components/Stack'
 import Text from '../../_components/Text'
 import { SHAPE_COLOR } from '../../_styles/color'
 import { useBridgeStore } from '../provider'
-
-const DUMMY_NICKNAME = '홍길동'
 
 const INTROS: Array<{
   image: StaticImageData
@@ -61,14 +60,23 @@ const INTROS: Array<{
 ]
 
 export default function Intro() {
+  const getNickname = useBridgeStore(store => store.getNickname)
+  const { data: nickname } = useQuery({
+    queryKey: ['nickname'],
+    queryFn: getNickname,
+    staleTime: Infinity,
+    placeholderData: '',
+  })
+
   const navigateWritePage = useBridgeStore(store => store.navigateWritePage)
   const { image, getTitle } = INTROS[Math.floor(Math.random() * INTROS.length)]!
 
+  if (!nickname) return null
   return (
     <Stack style={{ gap: 20, padding: 16 }}>
       <Image src={image} alt="intro" width={80} height={80} />
 
-      <Text typography="display2">{getTitle(DUMMY_NICKNAME)}</Text>
+      <Text typography="display2">{getTitle(nickname)}</Text>
 
       <div
         style={{
@@ -83,7 +91,7 @@ export default function Intro() {
         <Text typography="title1">
           운동 루틴 추천을 위해
           <br />
-          {DUMMY_NICKNAME}님의 운동 기록이 필요합니다.
+          {nickname}님의 운동 기록이 필요합니다.
         </Text>
       </div>
 

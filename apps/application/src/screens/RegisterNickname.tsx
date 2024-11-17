@@ -3,8 +3,9 @@ import {
   createWebView,
 } from '@webview-bridge/react-native'
 import { Screens, navigationRef } from '../routes/types'
+import { useAuthStore } from '../store/auth'
 import { createUri } from '../utils/createUri'
-import { fetch } from '../utils/fetch'
+import { http } from '../utils/http'
 
 type RegisterNicknameActionType = {
   registerNickname(
@@ -15,10 +16,11 @@ type RegisterNicknameActionType = {
 export const bridge = createBridge<RegisterNicknameActionType>({
   async registerNickname(nickname) {
     try {
-      // await fetch.post<{ nickname: string }>(`/api/account/nickname`, {
-      //   nickname,
-      // })
+      await http.post<{ nickname: string }>(`/api/account/nickname`, {
+        nickname,
+      })
 
+      useAuthStore.getState().handleSetUser({ nickname })
       navigationRef.navigate(Screens.REGISTER_USER_DATA)
 
       return { status: true, data: nickname }

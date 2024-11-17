@@ -9,10 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.60.5",
     "@webview-bridge/react": "^1.7.2",
     "@webview-bridge/web": "^1.7.2",
-    "date-fns": "^4.1.0",
     "application": "workspace:*",
+    "date-fns": "^4.1.0",
     "next": "14.2.6",
     "react": "18.3.1",
     "react-dom": "18.3.1",

@@ -1,16 +1,15 @@
 import { useEffect } from 'react'
-import { Text } from 'react-native'
 import { StackActions } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import Header from '../components/Header'
 import HeaderMenu from '../components/HeaderMenu'
 import MedalScreen from '../screens/Medal'
 import RecordWriteScreen from '../screens/RecordWrite'
-import { useAuthStore } from '../store/auth'
-import { fetch } from '../utils/fetch'
+import { UserType, useAuthStore } from '../store/auth'
+import { http } from '../utils/http'
 import HomeTab from './HomeTab'
 import RegisterStack from './RegisterStack'
-import { Screens, navigationRef } from './types'
+import { ScreenList, Screens, navigationRef } from './types'
 
 export const AppStackScreens = {
   ROOT: 'Root',
@@ -28,44 +27,43 @@ export type AppStackParamList = {
 
 const Stack = createNativeStackNavigator<AppStackParamList>()
 
-// type ResponseType = {
-//   nickname: string
-//   sex: 'MALE' | 'FEMALE'
-//   age: number
-//   height: number
-//   weight: number
-//   goal: 'GAIN_MUSCLE' | 'LOSE_BODY_FAT'
-// }
+function redirectToRegisterScreen(screen: ScreenList) {
+  navigationRef.dispatch(StackActions.replace(Screens.REGISTER, { screen }))
+}
 
-// async function checkRegisterRequiredUser(token: string) {
-//   const user = await fetch.post<{}, Partial<ResponseType>>(
-//     `/api/kakao?token=${token}`,
-//     {},
-//   )
+async function loadUser(token: string) {
+  try {
+    const user = await http.post<{}, UserType>(
+      `/api/kakao?token=${token}`,
+      {},
+      { isTokenRequired: false },
+    )
 
-//   if (!user.nickname) {
-//     navigationRef.navigate(Screens.REGISTER_NICKNAME)
-//   } else if (!user.sex || !user.age || !user.height || !user.weight) {
-//     navigationRef.navigate(Screens.REGISTER_USER_DATA)
-//   } else if (!user.goal) {
-//     navigationRef.navigate(Screens.REGISTER_TARGET)
-//   }
-// }
+    useAuthStore.getState().handleSetUser(user)
+
+    if (!user.nickname) {
+      return redirectToRegisterScreen(Screens.REGISTER_NICKNAME)
+    } else if (!user.sex || !user.age || !user.height || !user.weight) {
+      return redirectToRegisterScreen(Screens.REGISTER_USER_DATA)
+    } else if (!user.goal) {
+      return redirectToRegisterScreen(Screens.REGISTER_GOAL)
+    } else {
+      return null
+    }
+  } catch (error: unknown) {
+    console.error(error)
+    throw error
+  }
+}
 
 export default function AppStack() {
-  const token = useAuthStore(store => store.token)
+  const storedToken = useAuthStore(store => store.token)
 
   useEffect(() => {
-    if (token) {
-      // navigationRef.dispatch(
-      //   StackActions.replace(Screens.REGISTER, {
-      //     screen: Screens.ONBOARDING,
-      //   }),
-      // )
+    if (storedToken) {
+      loadUser(storedToken)
     }
-
-    // if (token) checkRegisterRequiredUser(token)
-  }, [token])
+  }, [storedToken])
 
   return (
     <Stack.Navigator

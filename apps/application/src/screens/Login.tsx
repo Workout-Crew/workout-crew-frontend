@@ -34,7 +34,6 @@ export default function LoginScreen() {
     <WebView
       source={{ uri: createUri('login') }}
       style={{ height: '100%', flex: 1, width: '100%' }}
-      webviewDebuggingEnabled
     />
   )
 }

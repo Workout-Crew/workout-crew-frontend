@@ -3,7 +3,9 @@ import {
   createWebView,
 } from '@webview-bridge/react-native'
 import { Screens, navigationRef } from '../routes/types'
+import { useAuthStore } from '../store/auth'
 import { createUri } from '../utils/createUri'
+import { http } from '../utils/http'
 
 type RequestBodyType = {
   sex: 'MALE' | 'FEMALE'
@@ -21,10 +23,11 @@ type RegisterUserDataActionType = {
 }
 
 export const bridge = createBridge<RegisterUserDataActionType>({
-  async registerUserData(_data: RequestBodyType) {
+  async registerUserData(data: RequestBodyType) {
     try {
-      // await fetch.post<RequestBodyType>(`/api/account`, data)
+      await http.post<RequestBodyType>(`/api/account`, data)
 
+      useAuthStore.getState().handleSetUser(data)
       navigationRef.navigate(Screens.REGISTER_GOAL)
 
       return { status: true, data: undefined }

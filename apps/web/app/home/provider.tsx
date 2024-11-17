@@ -8,6 +8,9 @@ export const { bridge, BridgeProvider, useBridgeStore } =
     throwOnError: true,
     timeout: 1000 * 60 * 60 * 24,
     initialBridge: {
+      getNickname: async () => {
+        throw new Error('Bridge is not ready')
+      },
       navigateWritePage: async () => {
         throw new Error('Bridge is not ready')
       },

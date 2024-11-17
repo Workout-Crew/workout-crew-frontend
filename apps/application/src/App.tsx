@@ -9,7 +9,7 @@ import AuthStack from './routes/AuthStack'
 import { navigationRef } from './routes/types'
 import { useAuthStore } from './store/auth'
 
-async function initialize() {
+async function loadToken() {
   const token = await AsyncStorage.getItem('token')
 
   if (token) useAuthStore.setState({ token })
@@ -21,7 +21,7 @@ export default function App() {
   const token = useAuthStore(store => store.token)
 
   useEffect(() => {
-    initialize()
+    loadToken()
   }, [token])
 
   return (

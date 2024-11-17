@@ -3,15 +3,20 @@ import {
   createWebView,
 } from '@webview-bridge/react-native'
 import { Screens, navigationRef } from '../routes/types'
+import { useAuthStore } from '../store/auth'
 import { createUri } from '../utils/createUri'
 
 type HomeActionType = {
+  getNickname: () => Promise<string | null>
   navigateWritePage: (_date: Date) => Promise<void>
   navigateRecordPage: () => Promise<void>
   navigateMedalPage: () => Promise<void>
 }
 
 export const bridge = createBridge<HomeActionType>({
+  async getNickname() {
+    return useAuthStore.getState().nickname
+  },
   async navigateWritePage(date: Date) {
     navigationRef.navigate(Screens.RECORD_WRITE, { date })
   },
