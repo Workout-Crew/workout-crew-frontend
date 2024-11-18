@@ -1,7 +1,15 @@
-import { ReactNode } from 'react'
+'use client'
+
+import { ReactNode, Suspense } from 'react'
+import dynamic from 'next/dynamic'
 import localFont from 'next/font/local'
+import { usePathname } from 'next/navigation'
 import './_styles/global.css'
 import RootProvider from './provider'
+
+const TokenLoader = dynamic(() => import('./_components/TokenLoader'), {
+  ssr: false,
+})
 
 const pretendard = localFont({
   src: './_styles/pretendard.woff2',
@@ -14,6 +22,8 @@ interface Props {
 }
 
 export default function RootLayout({ children }: Props) {
+  const pathname = usePathname()
+
   return (
     <html lang="en" className={pretendard.className}>
       <head>
@@ -24,7 +34,11 @@ export default function RootLayout({ children }: Props) {
       </head>
 
       <body>
-        <RootProvider>{children}</RootProvider>
+        <RootProvider>
+          <TokenLoader disabled={pathname.startsWith('/login')}>
+            <Suspense fallback={null}>{children}</Suspense>
+          </TokenLoader>
+        </RootProvider>
       </body>
     </html>
   )

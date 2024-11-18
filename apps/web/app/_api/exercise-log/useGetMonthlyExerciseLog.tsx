@@ -1,7 +1,6 @@
-import { useQuery } from '@tanstack/react-query'
-import { http } from '../http'
 import { ExerciseType } from '../model'
 import { QUERY_KEY } from '../queryKey'
+import { useQuery } from '../useQuery'
 
 type MonthlyExerciseLogType = {
   totalExerciseLogList: Array<{
@@ -12,13 +11,8 @@ type MonthlyExerciseLogType = {
 }
 
 export function useGetMonthlyExerciseLog() {
-  return useQuery({
-    queryKey: QUERY_KEY.exerciseLog.monthly,
-    queryFn: async () => {
-      const { totalExerciseLogList } =
-        await http.get<MonthlyExerciseLogType>('/api/exerciselog')
-
-      return totalExerciseLogList
-    },
-  })
+  return useQuery<MonthlyExerciseLogType>(
+    QUERY_KEY.exerciseLog.monthly,
+    '/api/exerciselog',
+  )
 }

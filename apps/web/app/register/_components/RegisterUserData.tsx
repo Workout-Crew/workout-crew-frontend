@@ -1,26 +1,35 @@
 'use client'
 
 import { ChangeEvent, useState } from 'react'
+import { useMutation } from '../../_api/useMutation'
 import Button from '../../_components/Button'
 import Input from '../../_components/Input'
 import Spacing from '../../_components/Spacing'
 import Stack from '../../_components/Stack'
 import Text from '../../_components/Text'
-import { bridge, useBridgeStore } from './provider'
 
-type UserDataType = Parameters<typeof bridge.registerUserData>[0]
+type UserDataType = {
+  sex: 'MALE' | 'FEMALE'
+  age: number
+  height: number
+  weight: number
+}
+
+interface Props {
+  onNext: () => void
+}
 
 const isValid = (data: Partial<UserDataType>): data is UserDataType =>
   Object.values(data).every(value => !!value)
 
-export default function RegisterUserDataPage() {
-  const registerUserData = useBridgeStore(store => store.registerUserData)
+export default function RegisterUserData({ onNext }: Props) {
   const [userData, setUserData] = useState<Partial<UserDataType>>({
     sex: undefined,
     age: undefined,
     height: undefined,
     weight: undefined,
   })
+  const { mutate, isPending } = useMutation<UserDataType>('/api/account')
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) =>
     setUserData(prev => ({
@@ -30,7 +39,7 @@ export default function RegisterUserDataPage() {
 
   const handleRegister = () => {
     if (isValid(userData)) {
-      registerUserData(userData)
+      mutate(userData, { onSuccess: onNext })
     }
   }
 
@@ -92,7 +101,7 @@ export default function RegisterUserDataPage() {
       <Button
         size={48}
         variant="primary"
-        disabled={!isValid(userData)}
+        disabled={!isValid(userData) || isPending}
         onClick={handleRegister}
         style={{ margin: 'auto 0 16px' }}
       >

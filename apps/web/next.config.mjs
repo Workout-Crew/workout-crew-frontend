@@ -5,6 +5,14 @@ const nextConfig = {
     config.module.rules.push({ test: /\.svg$/, use: ['@svgr/webpack'] })
     return config
   },
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*',
+        destination: 'https://uoscs-capstone.click/api/:path*',
+      },
+    ]
+  },
 }
 
 export default nextConfig

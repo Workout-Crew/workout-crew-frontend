@@ -1,29 +1,30 @@
 'use client'
 
 import { useState } from 'react'
+import { useMutation } from '../../_api/useMutation'
 import Button from '../../_components/Button'
 import RoundTab from '../../_components/RoundTab'
 import Spacing from '../../_components/Spacing'
 import Stack from '../../_components/Stack'
 import Text from '../../_components/Text'
-import { bridge, useBridgeStore } from './provider'
+import { GOAL } from '../../_utils/goal'
+import { GoalType } from 'application/src/utils/types'
 
-type TargetType = Parameters<typeof bridge.registerGoal>[0]
-
-const TARGET: Record<TargetType, string> = {
-  GAIN_MUSCLE: '근육이 있는 몸 만들기',
-  LOSE_BODY_FAT: '체지방 빠르게 감량하기',
+interface Props {
+  onNext: () => void
 }
 
-export default function RegisterTargetPage() {
-  const registerGoal = useBridgeStore(store => store.registerGoal)
-  const [target, setTarget] = useState<TargetType>()
+export default function RegisterGoal({ onNext }: Props) {
+  const [goal, setGoal] = useState<GoalType>()
+  const { mutate, isPending } = useMutation<{ goal: GoalType }>(
+    `/api/account/goal`,
+  )
 
-  const handleSelect = (target: TargetType) => setTarget(target)
+  const handleSelect = (goal: GoalType) => setGoal(goal)
 
   const handleRegister = () => {
-    if (target) {
-      registerGoal(target)
+    if (goal) {
+      mutate({ goal }, { onSuccess: onNext })
     }
   }
 
@@ -38,10 +39,10 @@ export default function RegisterTargetPage() {
       <Spacing size={32} />
 
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
-        {Object.entries(TARGET).map(([key, label]) => (
+        {Object.entries(GOAL).map(([key, label]) => (
           <RoundTab
-            isActive={key === target}
-            onClick={() => handleSelect(key as TargetType)}
+            isActive={key === goal}
+            onClick={() => handleSelect(key as GoalType)}
             key={key}
           >
             {label}
@@ -52,7 +53,7 @@ export default function RegisterTargetPage() {
       <Button
         size={48}
         variant="primary"
-        disabled={!target}
+        disabled={!goal || isPending}
         onClick={handleRegister}
         style={{ margin: 'auto 0 16px' }}
       >

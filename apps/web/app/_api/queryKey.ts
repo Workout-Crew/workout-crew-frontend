@@ -5,6 +5,7 @@ export const QUERY_KEY = {
   },
   medal: {
     count: ['MEDAL', 'COUNT'],
+    status: ['MEDAL', 'STATUS'],
   },
   recommendation: ['RECOMMENDATION'],
   gathering: {

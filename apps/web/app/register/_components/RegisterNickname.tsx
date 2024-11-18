@@ -1,21 +1,24 @@
 'use client'
 
 import { useState } from 'react'
+import { useMutation } from '../../_api/useMutation'
 import Button from '../../_components/Button'
 import Input from '../../_components/Input'
 import Spacing from '../../_components/Spacing'
 import Stack from '../../_components/Stack'
 import Text from '../../_components/Text'
-import { useBridgeStore } from './provider'
 
-export default function RegisterNicknamePage() {
+interface Props {
+  onNext: () => void
+}
+
+export default function RegisterNickname({ onNext }: Props) {
   const [nickname, setNickname] = useState<string>('')
-  const registerNickname = useBridgeStore(store => store.registerNickname)
-
+  const { mutate, isPending } = useMutation<{ nickname: string }>(
+    '/api/account/nickname',
+  )
   const handleRegister = () => {
-    if (nickname.length > 0) {
-      registerNickname(nickname)
-    }
+    mutate({ nickname }, { onSuccess: onNext })
   }
 
   return (
@@ -38,7 +41,7 @@ export default function RegisterNicknamePage() {
       <Button
         size={48}
         variant="primary"
-        disabled={nickname.length === 0}
+        disabled={nickname.length === 0 || isPending}
         onClick={handleRegister}
         style={{ margin: 'auto 0 16px' }}
       >

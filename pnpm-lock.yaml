@@ -129,6 +129,9 @@ importers:
       '@tanstack/react-query':
         specifier: ^5.60.5
         version: 5.60.5(react@18.3.1)
+      '@use-funnel/browser':
+        specifier: ^0.0.7
+        version: 0.0.7(react@18.3.1)
       '@webview-bridge/react':
         specifier: ^1.7.2
         version: 1.7.2(@webview-bridge/web@1.7.2)(react@18.3.1)
@@ -3576,6 +3579,23 @@ packages:
   /@ungap/structured-clone@1.2.0:
     resolution: {integrity: sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==}
     dev: true
+
+  /@use-funnel/browser@0.0.7(react@18.3.1):
+    resolution: {integrity: sha512-f9MAUIglaO9b+0kMyZVaiKwPiNJLruc5GDRt2vfs6ExPb678dfpQSyPKbU8nik71hgO7GSjVwORbyx2AthWHzg==}
+    peerDependencies:
+      react: '>=16.8'
+    dependencies:
+      '@use-funnel/core': 0.0.7(react@18.3.1)
+      react: 18.3.1
+    dev: false
+
+  /@use-funnel/core@0.0.7(react@18.3.1):
+    resolution: {integrity: sha512-aInoq3dv5MSuYIPb1w1Y1pTJEAncQghoX99suMwsqnkMGunnCOw6UAPo131oyM4H52m2rbsoBnHBreDEDYmvzg==}
+    peerDependencies:
+      react: '>=16.8'
+    dependencies:
+      react: 18.3.1
+    dev: false
 
   /@vercel/style-guide@5.2.0(eslint@8.57.1)(prettier@3.3.3)(typescript@5.5.4):
     resolution: {integrity: sha512-fNSKEaZvSkiBoF6XEefs8CcgAV9K9e+MbcsDZjUsktHycKdA0jvjAzQi1W/FzLS+Nr5zZ6oejCwq/97dHUKe0g==}

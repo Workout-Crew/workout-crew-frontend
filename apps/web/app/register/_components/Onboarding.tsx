@@ -6,11 +6,12 @@ import Button from '../../_components/Button'
 import Spacing from '../../_components/Spacing'
 import Stack from '../../_components/Stack'
 import Text from '../../_components/Text'
-import { useBridgeStore } from './provider'
 
-export default function RegisterOnboardingPage() {
-  const handleComplete = useBridgeStore(store => store.handleComplete)
+interface Props {
+  onNext: () => void
+}
 
+export default function Onboarding({ onNext }: Props) {
   return (
     <Stack style={{ height: '100%' }}>
       <Text typography="display1">
@@ -33,7 +34,7 @@ export default function RegisterOnboardingPage() {
       <Button
         size={48}
         variant="primary"
-        onClick={() => handleComplete()}
+        onClick={onNext}
         style={{ margin: 'auto 0 16px' }}
       >
         시작하기

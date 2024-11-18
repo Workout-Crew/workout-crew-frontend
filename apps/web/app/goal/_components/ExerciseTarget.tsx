@@ -4,27 +4,28 @@ import Button from '../../_components/Button'
 import Stack from '../../_components/Stack'
 import Text from '../../_components/Text'
 import { FONT_COLOR, SHAPE_COLOR } from '../../_styles/color'
-import { useBridgeStore } from '../provider'
-
-const DUMMY_NICKNAME = '홍길동'
-const DUMMY_TARGET = '근육이 있는 몸 만들기'
+import { getGoal } from '../../_utils/goal'
+import { useBridgeStore } from '../../provider'
 
 export default function ExerciseTarget() {
-  const selectGoal = useBridgeStore(store => store.selectGoal)
+  const nickname = useBridgeStore(store => store.user?.nickname)
+  const goal = useBridgeStore(store => store.user?.goal)
 
   const handleClick = async () => {
-    const goal = await selectGoal()
+    // const goal = await selectGoal()
 
     console.log(goal)
   }
 
+  if (!nickname || !goal) return null
+
   return (
     <Stack style={{ gap: 20, padding: 16 }}>
       <Text typography="display2">
-        {DUMMY_NICKNAME}님이 설정한 목표는
+        {nickname}님이 설정한 목표는
         <br />
         <Text typography="display2" fontColor={FONT_COLOR.point}>
-          {DUMMY_TARGET}
+          {getGoal(goal)}
         </Text>{' '}
         입니다!
       </Text>

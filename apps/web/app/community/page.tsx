@@ -8,9 +8,9 @@ import Separator from '../_components/Separator'
 import Spacing from '../_components/Spacing'
 import Stack from '../_components/Stack'
 import Text from '../_components/Text'
+import { useBridgeStore } from '../provider'
 import { format } from 'date-fns'
 
-const DUMMY_NICKNAME = '홍길동'
 const BOARD_DUMMY_DATA = [
   {
     id: 1,
@@ -63,10 +63,13 @@ const GATHERING_DUMMY_DATA = [
 ]
 
 export default function CommunityPage() {
+  const nickname = useBridgeStore(store => store.user?.nickname)
+  const push = useBridgeStore(store => store.push)
+
   return (
     <>
       <Stack style={{ padding: 16 }}>
-        <Text typography="title1">{DUMMY_NICKNAME}님의 활동 현황</Text>
+        <Text typography="title1">{nickname}님의 활동 현황</Text>
 
         <Spacing size={20} />
 
@@ -76,22 +79,22 @@ export default function CommunityPage() {
           <CardItem
             title="내가 개설한 모임"
             label="내역 확인하기"
-            onClick={() => null}
+            onClick={() => push('/community/my-gathering-list')}
           />
           <CardItem
             title="참가한 모임"
             label="내역 확인하기"
-            onClick={() => null}
+            onClick={() => push('/community/participanted-gathering-list')}
           />
           <CardItem
             title="작성한 게시글"
             label="내역 확인하기"
-            onClick={() => null}
+            onClick={() => push('/community/my-post-list')}
           />
           <CardItem
             title="작성한 댓글"
             label="내역 확인하기"
-            onClick={() => null}
+            onClick={() => push('/community/post-list-with-my-comments')}
           />
         </div>
       </Stack>
@@ -112,7 +115,7 @@ export default function CommunityPage() {
           ))}
         </Stack>
 
-        <BottomLink onClick={() => null}>더보기</BottomLink>
+        <BottomLink onClick={() => push('/community/board')}>더보기</BottomLink>
       </Stack>
 
       <Separator />
@@ -144,7 +147,9 @@ export default function CommunityPage() {
           )}
         </Stack>
 
-        <BottomLink onClick={() => null}>더보기</BottomLink>
+        <BottomLink onClick={() => push('/community/gathering')}>
+          더보기
+        </BottomLink>
       </Stack>
 
       <Separator />

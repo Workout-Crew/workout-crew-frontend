@@ -1,13 +1,9 @@
-import { useQuery } from '@tanstack/react-query'
-import { http } from '../http'
 import { MedalGradeType } from '../model'
 import { QUERY_KEY } from '../queryKey'
+import { useQuery } from '../useQuery'
 
 type MedalCountType = Record<Lowercase<MedalGradeType>, number>
 
-export function useGetMonthlyExerciseLog() {
-  return useQuery({
-    queryKey: QUERY_KEY.medal.count,
-    queryFn: async () => await http.get<MedalCountType>('/api/medal/count'),
-  })
+export function useGetMedalCount() {
+  return useQuery<MedalCountType>(QUERY_KEY.medal.count, '/api/medal/count')
 }

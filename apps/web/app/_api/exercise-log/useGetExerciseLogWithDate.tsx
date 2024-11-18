@@ -1,7 +1,6 @@
-import { useQuery } from '@tanstack/react-query'
-import { http } from '../http'
 import { ExerciseType } from '../model'
 import { QUERY_KEY } from '../queryKey'
+import { useQuery } from '../useQuery'
 import { format } from 'date-fns'
 
 type ExerciseLogType = {
@@ -19,14 +18,8 @@ type ExerciseLogType = {
 export function useGetExerciseLogWithDate(date: Date) {
   const formatted = format(date, 'yyyy-MM-dd')
 
-  return useQuery({
-    queryKey: QUERY_KEY.exerciseLog.date(formatted),
-    queryFn: async () => {
-      const { exerciseLogByDateList } = await http.get<ExerciseLogType>(
-        `/api/exerciselog/date/${formatted}`,
-      )
-
-      return exerciseLogByDateList
-    },
-  })
+  return useQuery<ExerciseLogType>(
+    QUERY_KEY.exerciseLog.date(formatted),
+    `/api/exerciselog/date/${formatted}`,
+  )
 }

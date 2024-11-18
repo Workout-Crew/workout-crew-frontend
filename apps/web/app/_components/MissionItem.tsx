@@ -1,4 +1,5 @@
-import Image from 'next/image'
+import Image, { StaticImageData } from 'next/image'
+import { MedalGradeType } from '../_api/model'
 import BronzeMedalImage from '../_assets/medal/bronze_medal.png'
 import GoldMedalImage from '../_assets/medal/gold_medal.png'
 import SilverMedalImage from '../_assets/medal/silver_medal.png'
@@ -6,20 +7,20 @@ import { FONT_COLOR, SHAPE_COLOR } from '../_styles/color'
 import Spacing from './Spacing'
 import Text from './Text'
 
-const MEDAL_IMAGE_BY_TYPE = {
+const MEDAL_IMAGE_BY_GRADE: Record<MedalGradeType, StaticImageData> = {
   GOLD: GoldMedalImage,
   SILVER: SilverMedalImage,
   BRONZE: BronzeMedalImage,
 }
 
 interface Props {
-  type: keyof typeof MEDAL_IMAGE_BY_TYPE
   title: string
+  grade: MedalGradeType
   current: number
   total: number
 }
 
-export default function MissionItem({ type, title, current, total }: Props) {
+export default function MissionItem({ title, grade, current, total }: Props) {
   return (
     <div style={{ display: 'flex', alignItems: 'center' }}>
       <div
@@ -33,7 +34,7 @@ export default function MissionItem({ type, title, current, total }: Props) {
         }}
       >
         <Image
-          src={MEDAL_IMAGE_BY_TYPE[type]}
+          src={MEDAL_IMAGE_BY_GRADE[grade]}
           alt={title}
           width={32}
           height={32}

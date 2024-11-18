@@ -1,25 +1,15 @@
 import { createNavigationContainerRef } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { AppStackParamList, AppStackScreens } from './AppStack'
-import { AuthStackParamList, AuthStackScreens } from './AuthStack'
 import { HomeTabParamList, HomeTabScreens } from './HomeTab'
-import { RegisterStackParamList, RegisterStackScreens } from './RegisterStack'
+import { RootStackParamList, RootStackScreens } from './RootStack'
 
 export const navigationRef = createNavigationContainerRef()
 
-export const Screens = {
-  ...AppStackScreens,
-  ...AuthStackScreens,
-  ...HomeTabScreens,
-  ...RegisterStackScreens,
-} as const
+export const Screens = { ...RootStackScreens, ...HomeTabScreens } as const
 
 export type ScreenList = (typeof Screens)[keyof typeof Screens]
 
-type ParamList = AppStackParamList &
-  AuthStackParamList &
-  HomeTabParamList &
-  RegisterStackParamList
+type ParamList = RootStackParamList & HomeTabParamList
 
 export type ScreenProps<T extends keyof ParamList> = NativeStackScreenProps<
   ParamList,
@@ -28,10 +18,6 @@ export type ScreenProps<T extends keyof ParamList> = NativeStackScreenProps<
 
 declare global {
   namespace ReactNavigation {
-    interface RootParamList
-      extends AppStackParamList,
-        AuthStackParamList,
-        HomeTabParamList,
-        RegisterStackParamList {}
+    interface RootParamList extends RootStackParamList, HomeTabParamList {}
   }
 }

@@ -1,14 +1,13 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { useBridge } from '@webview-bridge/react-native'
 import Logo from '../assets/logo.svg'
 import Header from '../components/Header'
 import HeaderMenu from '../components/HeaderMenu'
 import TabBarIcon from '../components/TabBarIcon'
 import TabBarLabel from '../components/TabBarLabel'
-import CommunityScreen from '../screens/Community'
-import GoalScreen from '../screens/Goal'
-import HomeScreen from '../screens/Home'
-import RecordScreen from '../screens/Record'
-import { useAuthStore } from '../store/auth'
+import { WebViewScreen } from '../components/WebViewScreen'
+import { bridge } from '../utils/bridge'
+import { ScreenProps } from './types'
 
 export const HomeTabScreens = {
   HOME: 'Home',
@@ -27,7 +26,7 @@ export type HomeTabParamList = {
 const Tab = createBottomTabNavigator<HomeTabParamList>()
 
 export default function HomeTab() {
-  const handleLogout = useAuthStore(store => store.handleLogout)
+  const handleLogout = useBridge(bridge, store => store.logout)
 
   return (
     <Tab.Navigator
@@ -45,7 +44,12 @@ export default function HomeTab() {
     >
       <Tab.Screen
         name={HomeTabScreens.HOME}
-        component={HomeScreen}
+        component={(props: ScreenProps<'Home'>) => (
+          <WebViewScreen
+            {...(props as unknown as ScreenProps<'WebView'>)}
+            overridedPathname="home"
+          />
+        )}
         options={{
           tabBarLabel: props => <TabBarLabel {...props}>홈</TabBarLabel>,
           tabBarIcon: props => (
@@ -55,7 +59,12 @@ export default function HomeTab() {
       />
       <Tab.Screen
         name={HomeTabScreens.RECORD}
-        component={RecordScreen}
+        component={(props: ScreenProps<'Record'>) => (
+          <WebViewScreen
+            {...(props as unknown as ScreenProps<'WebView'>)}
+            overridedPathname="record"
+          />
+        )}
         options={{
           tabBarLabel: props => <TabBarLabel {...props}>운동 기록</TabBarLabel>,
           tabBarIcon: props => (
@@ -65,7 +74,12 @@ export default function HomeTab() {
       />
       <Tab.Screen
         name={HomeTabScreens.GOAL}
-        component={GoalScreen}
+        component={(props: ScreenProps<'Goal'>) => (
+          <WebViewScreen
+            {...(props as unknown as ScreenProps<'WebView'>)}
+            overridedPathname="goal"
+          />
+        )}
         options={{
           tabBarLabel: props => <TabBarLabel {...props}>내 목표</TabBarLabel>,
           tabBarIcon: props => (
@@ -75,7 +89,12 @@ export default function HomeTab() {
       />
       <Tab.Screen
         name={HomeTabScreens.COMMUNITY}
-        component={CommunityScreen}
+        component={(props: ScreenProps<'Community'>) => (
+          <WebViewScreen
+            {...(props as unknown as ScreenProps<'WebView'>)}
+            overridedPathname="community"
+          />
+        )}
         options={{
           tabBarLabel: props => <TabBarLabel {...props}>커뮤니티</TabBarLabel>,
           tabBarIcon: props => (

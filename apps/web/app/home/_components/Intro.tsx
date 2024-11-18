@@ -2,16 +2,19 @@
 
 import { ReactNode } from 'react'
 import Image, { StaticImageData } from 'next/image'
-import { useQuery } from '@tanstack/react-query'
+import { useGetExerciseRecommendation } from '../../_api/recommendation/useGetExerciseRecommendation'
 import ChartImage from '../../_assets/intro/chart.png'
 import FireImage from '../../_assets/intro/fire.png'
 import RocketImage from '../../_assets/intro/rocket.png'
 import TargetImage from '../../_assets/intro/target.png'
 import Button from '../../_components/Button'
+import Spacing from '../../_components/Spacing'
 import Stack from '../../_components/Stack'
 import Text from '../../_components/Text'
 import { SHAPE_COLOR } from '../../_styles/color'
-import { useBridgeStore } from '../provider'
+import { getTodayDate } from '../../_utils/date'
+import { getExercise } from '../../_utils/exercise'
+import { useBridgeStore } from '../../provider'
 
 const INTROS: Array<{
   image: StaticImageData
@@ -60,15 +63,9 @@ const INTROS: Array<{
 ]
 
 export default function Intro() {
-  const getNickname = useBridgeStore(store => store.getNickname)
-  const { data: nickname } = useQuery({
-    queryKey: ['nickname'],
-    queryFn: getNickname,
-    staleTime: Infinity,
-    placeholderData: '',
-  })
-
-  const navigateWritePage = useBridgeStore(store => store.navigateWritePage)
+  const { data } = useGetExerciseRecommendation()
+  const nickname = useBridgeStore(store => store.user?.nickname)
+  const push = useBridgeStore(store => store.push)
   const { image, getTitle } = INTROS[Math.floor(Math.random() * INTROS.length)]!
 
   if (!nickname) return null
@@ -81,24 +78,37 @@ export default function Intro() {
       <div
         style={{
           display: 'flex',
-          justifyContent: 'center',
-          padding: '20px 0',
+          padding: '20px',
           borderRadius: 8,
           background: SHAPE_COLOR.depth_1,
-          textAlign: 'center',
         }}
       >
-        <Text typography="title1">
-          운동 루틴 추천을 위해
-          <br />
-          {nickname}님의 운동 기록이 필요합니다.
-        </Text>
+        {data ? (
+          <Stack style={{ padding: 0, alignItems: 'flex-start' }}>
+            <Text typography="title1">
+              {getExercise(data.exerciseType)}을 추천드려요!
+            </Text>
+            <Spacing size={8} />
+            <Text typography="body1" style={{ wordBreak: 'keep-all' }}>
+              {data.description}
+            </Text>
+          </Stack>
+        ) : (
+          <Text
+            typography="title1"
+            style={{ margin: '0 auto', textAlign: 'center' }}
+          >
+            운동 루틴 추천을 위해
+            <br />
+            {nickname}님의 운동 기록이 필요합니다.
+          </Text>
+        )}
       </div>
 
       <Button
         size={48}
         variant="primary"
-        onClick={() => navigateWritePage(new Date())}
+        onClick={() => push(`/record/write?date=${getTodayDate()}`)}
       >
         오늘의 운동 기록하기
       </Button>

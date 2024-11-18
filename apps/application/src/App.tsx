@@ -4,32 +4,33 @@ import BootSplash from 'react-native-bootsplash'
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { NavigationContainer } from '@react-navigation/native'
-import AppStack from './routes/AppStack'
-import AuthStack from './routes/AuthStack'
+import { useBridge } from '@webview-bridge/react-native'
+import RootStack from './routes/RootStack'
 import { navigationRef } from './routes/types'
-import { useAuthStore } from './store/auth'
-
-async function loadToken() {
-  const token = await AsyncStorage.getItem('token')
-
-  if (token) useAuthStore.setState({ token })
-
-  setTimeout(() => BootSplash.hide({ fade: true }), 1500)
-}
+import { bridge } from './utils/bridge'
 
 export default function App() {
-  const token = useAuthStore(store => store.token)
+  const user = useBridge(bridge, store => store.user)
+  const handleLogin = useBridge(bridge, store => store.login)
 
   useEffect(() => {
-    loadToken()
-  }, [token])
+    if (!user) {
+      AsyncStorage.getItem('token').then(async token => {
+        if (token) {
+          await handleLogin(token)
+        }
+
+        setTimeout(() => BootSplash.hide({ fade: true }), 1500)
+      })
+    }
+  }, [handleLogin, user])
 
   return (
     <SafeAreaProvider>
       <NavigationContainer ref={navigationRef}>
         <StatusBar backgroundColor="#ffffff" barStyle="dark-content" />
         <SafeAreaView style={{ flex: 1 }}>
-          {token ? <AppStack /> : <AuthStack />}
+          <RootStack />
         </SafeAreaView>
       </NavigationContainer>
     </SafeAreaProvider>

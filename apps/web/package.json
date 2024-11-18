@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@tanstack/react-query": "^5.60.5",
+    "@use-funnel/browser": "^0.0.7",
     "@webview-bridge/react": "^1.7.2",
     "@webview-bridge/web": "^1.7.2",
     "application": "workspace:*",

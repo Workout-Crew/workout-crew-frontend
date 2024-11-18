@@ -1,7 +1,6 @@
-import { useQuery } from '@tanstack/react-query'
-import { http } from '../http'
 import { ExerciseType } from '../model'
 import { QUERY_KEY } from '../queryKey'
+import { useQuery } from '../useQuery'
 
 type ExerciseRecommendationType = {
   exerciseType: ExerciseType
@@ -10,9 +9,8 @@ type ExerciseRecommendationType = {
 }
 
 export function useGetExerciseRecommendation() {
-  return useQuery({
-    queryKey: QUERY_KEY.recommendation,
-    queryFn: async () =>
-      await http.get<ExerciseRecommendationType>('/api/exerciserecommendation'),
-  })
+  return useQuery<ExerciseRecommendationType>(
+    QUERY_KEY.recommendation,
+    '/api/exerciserecommendation',
+  )
 }

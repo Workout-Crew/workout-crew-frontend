@@ -2,7 +2,7 @@
   "name": "application",
   "version": "0.0.1",
   "private": true,
-  "types": "src/screens/index.ts",
+  "types": "src/utils/bridge.ts",
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
