@@ -6,7 +6,7 @@ import Text from './Text'
 
 interface Props extends Omit<HTMLAttributes<HTMLDivElement>, 'onClick'> {
   title: string
-  description: string
+  description?: string
   label: string
   onClick: MouseEventHandler<HTMLButtonElement>
 }
@@ -32,9 +32,11 @@ export default function CardItem({
       {...props}
     >
       <Text typography="title2">{title}</Text>
-      <Text typography="caption" style={{ wordBreak: 'keep-all' }}>
-        {description}
-      </Text>
+      {description && (
+        <Text typography="caption" style={{ wordBreak: 'keep-all' }}>
+          {description}
+        </Text>
+      )}
 
       <Spacing size={16} />
 
