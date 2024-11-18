@@ -17,7 +17,6 @@ const DUMMY_DATA = [
     city: '서울시',
     organizer: '김철수',
     participants: 8,
-    image: null,
     date: '2024-11-24',
   },
   {
@@ -28,7 +27,6 @@ const DUMMY_DATA = [
     city: '서울시',
     organizer: '김민수',
     participants: 12,
-    image: 'https://source.unsplash.com/random/800x600',
     date: '2024-11-23',
   },
   {
@@ -38,7 +36,6 @@ const DUMMY_DATA = [
     city: '서울시',
     organizer: '김영희',
     participants: 3,
-    image: null,
     date: '2024-11-21',
   },
   {
@@ -48,7 +45,6 @@ const DUMMY_DATA = [
     city: '서울시',
     organizer: '김민수',
     participants: 6,
-    image: null,
     date: '2024-11-20',
   },
 ]
@@ -62,16 +58,7 @@ export default function GatheringPage() {
       <Stack>
         {DUMMY_DATA.map(
           (
-            {
-              id,
-              title,
-              description,
-              city,
-              organizer,
-              participants,
-              image,
-              date,
-            },
+            { id, title, description, city, organizer, participants, date },
             index,
             list,
           ) => (
@@ -80,7 +67,7 @@ export default function GatheringPage() {
                 title={title}
                 description={description}
                 label={`${organizer} / ${city} / 참가자 ${participants}명 / ${format(new Date(date), 'MM월 dd일')}`}
-                image={image}
+                image={null}
                 onClick={() => null}
                 style={{ padding: '16px 0' }}
               />

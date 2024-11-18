@@ -1,7 +1,6 @@
 'use client'
 
 import Button from '../../../_components/Button'
-import Gallery from '../../../_components/Gallery'
 import Input from '../../../_components/Input'
 import Spacing from '../../../_components/Spacing'
 import Stack from '../../../_components/Stack'
@@ -36,16 +35,6 @@ export default function GatheringCreatePage() {
             outline: 'none',
             resize: 'none',
           }}
-        />
-      </div>
-
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-        <Text typography="body2">사진 추가</Text>
-        <Gallery
-          images={['1', '2', '3', '4']}
-          column={4}
-          maxCount={8}
-          onAppend={() => null}
         />
       </div>
 

@@ -16,7 +16,6 @@ async function fetchGathering(_gatheringId: string) {
     organizer: '김민수',
     type: '러닝',
     participants: 12,
-    image: 'https://source.unsplash.com/random/800x600',
     date: '2024-11-23',
   }
 }
@@ -29,7 +28,6 @@ export default async function GatheringDetailPage({
   return (
     <>
       <GatheringInfo
-        image={gathering.image}
         organizer={gathering.organizer}
         city={gathering.city}
         type={gathering.type}

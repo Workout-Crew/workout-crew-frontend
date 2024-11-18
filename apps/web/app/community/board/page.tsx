@@ -3,11 +3,9 @@
 import Input from '../../_components/Input'
 import ListItem from '../../_components/ListItem'
 import Separator from '../../_components/Separator'
-import Spacing from '../../_components/Spacing'
 import Stack from '../../_components/Stack'
-import Text from '../../_components/Text'
 
-const DUMMY_DATA_1 = [
+const DUMMY_DATA = [
   {
     id: 1,
     name: '운동 정보 게시판',
@@ -23,9 +21,6 @@ const DUMMY_DATA_1 = [
     name: '식단 게시판',
     description: '어떤 식단을 구성했는지 올려주세요',
   },
-]
-
-const DUMMY_DATA_2 = [
   {
     id: 4,
     name: '클라이밍 게시판',
@@ -67,36 +62,15 @@ export default function BoardPage() {
 
       <Separator />
 
-      <Stack style={{ padding: 16 }}>
-        <Text typography="title1">게시판 목록</Text>
-        <Spacing size={20} />
-        <Stack style={{ gap: 16, padding: 0 }}>
-          {DUMMY_DATA_1.map(({ id, name, description }) => (
-            <ListItem
-              title={name}
-              description={description}
-              onClick={() => null}
-              key={id}
-            />
-          ))}
-        </Stack>
-      </Stack>
-
-      <Separator />
-
-      <Stack style={{ padding: 16 }}>
-        <Text typography="title1">자유 게시판</Text>
-        <Spacing size={20} />
-        <Stack style={{ gap: 16, padding: 0 }}>
-          {DUMMY_DATA_2.map(({ id, name, description }) => (
-            <ListItem
-              title={name}
-              description={description}
-              onClick={() => null}
-              key={id}
-            />
-          ))}
-        </Stack>
+      <Stack style={{ gap: 16, padding: 16 }}>
+        {DUMMY_DATA.map(({ id, name, description }) => (
+          <ListItem
+            title={name}
+            description={description}
+            onClick={() => null}
+            key={id}
+          />
+        ))}
       </Stack>
     </>
   )

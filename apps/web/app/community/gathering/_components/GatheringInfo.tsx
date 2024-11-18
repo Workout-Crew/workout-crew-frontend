@@ -1,9 +1,7 @@
 import SimpleListItem from '../../../_components/SimpleListItem'
-import Spacing from '../../../_components/Spacing'
 import Stack from '../../../_components/Stack'
 
 interface Props {
-  image: string
   organizer: string
   city: string
   type: string
@@ -12,7 +10,6 @@ interface Props {
 }
 
 export default function GatheringInfo({
-  // image,
   organizer,
   city,
   type,
@@ -21,17 +18,6 @@ export default function GatheringInfo({
 }: Props) {
   return (
     <Stack style={{ padding: 16 }}>
-      <div
-        style={{
-          width: '100%',
-          height: 240,
-          borderRadius: 8,
-          background: '#D9D9D9',
-        }}
-      />
-
-      <Spacing size={16} />
-
       <div
         style={{
           display: 'flex',
