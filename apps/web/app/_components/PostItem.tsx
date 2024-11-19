@@ -1,6 +1,7 @@
 'use client'
 
 import { HTMLAttributes, MouseEventHandler } from 'react'
+import Image from 'next/image'
 import Text from '../_components/Text'
 import { FONT_COLOR } from '../_styles/color'
 import { createTextOverflowStyle } from '../_styles/utils'
@@ -53,14 +54,12 @@ export default function PostItem({
       </div>
 
       {image && (
-        <div
-          style={{
-            flexShrink: 0,
-            width: 58,
-            height: 58,
-            borderRadius: 8,
-            background: '#D9D9D9',
-          }}
+        <Image
+          src={image}
+          alt="Thumbnail"
+          width={58}
+          height={58}
+          style={{ borderRadius: 8, objectFit: 'cover' }}
         />
       )}
     </div>

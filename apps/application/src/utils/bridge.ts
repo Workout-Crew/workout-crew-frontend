@@ -31,11 +31,6 @@ type BridgeActionType = {
   logout(): Promise<void>
   refetchUser(): Promise<void>
   getUser(): ActionResponseType<UserType | null>
-  post(
-    endpoint: string,
-    data: unknown,
-    isTokenRequired?: boolean,
-  ): Promise<unknown>
   getPhotos(limit?: number): Promise<string[]>
 }
 
@@ -100,24 +95,12 @@ export const bridge = createBridge<BridgeStoreType & BridgeActionType>(
     async getUser() {
       return { status: true, data: get().user }
     },
-    async post(endpoint: string, data: unknown, isTokenRequired = true) {
-      const token = get().user?.id
-
-      if (isTokenRequired && !token) {
-        throw new Error('Token is required')
-      }
-
-      return await http.post(
-        endpoint,
-        data,
-        isTokenRequired && token ? { token } : {},
-      )
-    },
     async getPhotos(limit: number = 10) {
       const { assets } = await launchImageLibrary({
         mediaType: 'photo',
         selectionLimit: limit,
         includeBase64: true,
+        quality: 0,
       })
 
       return (

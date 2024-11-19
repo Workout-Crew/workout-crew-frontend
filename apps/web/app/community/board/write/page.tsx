@@ -1,16 +1,21 @@
 'use client'
 
 import { ChangeEvent, useState } from 'react'
-import { useSearchParams } from 'next/navigation'
-import { useCreatePost } from '../../../../_api/board/useCreatePost'
-import Button from '../../../../_components/Button'
-import Gallery from '../../../../_components/Gallery'
-import Input from '../../../../_components/Input'
-import Spacing from '../../../../_components/Spacing'
-import Stack from '../../../../_components/Stack'
-import Text from '../../../../_components/Text'
-import { BORDER_COLOR, FONT_COLOR } from '../../../../_styles/color'
-import { useBridgeStore } from '../../../../provider'
+import { useCreatePost } from '../../../_api/board/useCreatePost'
+import Button from '../../../_components/Button'
+import Gallery from '../../../_components/Gallery'
+import Input from '../../../_components/Input'
+import Spacing from '../../../_components/Spacing'
+import Stack from '../../../_components/Stack'
+import Text from '../../../_components/Text'
+import { useSetTitle } from '../../../_hooks/useSetTitle'
+import { BORDER_COLOR, FONT_COLOR } from '../../../_styles/color'
+import { base64ToFile, getRandomName } from '../../../_utils/image'
+import { useBridgeStore } from '../../../provider'
+
+interface Props {
+  searchParams: { categoryId: string }
+}
 
 type PostCreateType = {
   title: string
@@ -18,8 +23,9 @@ type PostCreateType = {
   photos: string[]
 }
 
-export default function WritePostPage() {
-  const searchParam = useSearchParams()
+export default function WritePostPage({ searchParams: { categoryId } }: Props) {
+  useSetTitle('게시글 작성하기')
+
   const getPhotos = useBridgeStore(store => store.getPhotos)
   const goBack = useBridgeStore(store => store.goBack)
   const [{ title, content, photos }, setPost] = useState<PostCreateType>({
@@ -27,7 +33,7 @@ export default function WritePostPage() {
     content: '',
     photos: [],
   })
-  const { mutate } = useCreatePost()
+  const { mutate, isPending } = useCreatePost()
 
   const handleChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -38,18 +44,22 @@ export default function WritePostPage() {
     setPost(prev => ({ ...prev, photos: [...prev.photos, ...loaded] }))
   }
 
-  const handleClick = () => {
-    const categoryId = searchParam.get('categoryId')
+  const handleClick = async () => {
+    const formData = new FormData()
+    const fileName = getRandomName(10)
 
-    if (categoryId) {
-      mutate(
-        {
-          image: [],
-          request: { title, content, categoryId: parseInt(categoryId) },
-        },
-        { onSuccess: goBack },
-      )
-    }
+    formData.append(
+      'request',
+      JSON.stringify({ title, content, categoryId: parseInt(categoryId) }),
+    )
+    photos.forEach((photo, index) =>
+      formData.append('image', base64ToFile(photo, `${fileName}-${index}`)),
+    )
+
+    mutate(formData, {
+      onSuccess: goBack,
+      onSettled: (result, error) => console.log(result, error),
+    })
   }
 
   return (
@@ -103,7 +113,7 @@ export default function WritePostPage() {
       <Button
         size={48}
         variant="primary"
-        disabled={!!title && !!content}
+        disabled={!title || !content || isPending}
         onClick={handleClick}
         style={{ marginTop: 'auto' }}
       >

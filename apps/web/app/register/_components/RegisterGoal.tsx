@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { useMutation } from '../../_api/useMutation'
+import { useSetGoal } from '../../_api/account/useSetGoal'
 import Button from '../../_components/Button'
 import RoundTab from '../../_components/RoundTab'
 import Spacing from '../../_components/Spacing'
@@ -16,9 +16,7 @@ interface Props {
 
 export default function RegisterGoal({ onNext }: Props) {
   const [goal, setGoal] = useState<GoalType>()
-  const { mutate, isPending } = useMutation<{ goal: GoalType }>(
-    `/api/account/goal`,
-  )
+  const { mutate, isPending } = useSetGoal()
 
   const handleSelect = (goal: GoalType) => setGoal(goal)
 

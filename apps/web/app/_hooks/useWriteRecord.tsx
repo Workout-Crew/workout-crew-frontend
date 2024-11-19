@@ -8,6 +8,7 @@ import Stack from '../_components/Stack'
 import Text from '../_components/Text'
 import { BORDER_COLOR } from '../_styles/color'
 import { EXERCISE } from '../_utils/exercise'
+import { base64ToFile, getRandomName } from '../_utils/image'
 import { useBridgeStore } from '../provider'
 import ImageList from '../record/_components/ImageList'
 import Intensity from '../record/_components/Intensity'
@@ -270,8 +271,12 @@ export function useWriteRecord(
 
     if (!title || !exerciseType || !startTime || !endTime) return
 
-    mutate(
-      {
+    const formData = new FormData()
+    const fileName = getRandomName(10)
+
+    formData.append(
+      'request',
+      JSON.stringify({
         title,
         exerciseType,
         startTime: startTime.toISOString(),
@@ -279,9 +284,18 @@ export function useWriteRecord(
         description: '',
         intensity: 0,
         gatheringId,
-      },
-      { onSuccess: goBack, onError: error => console.error(error) },
+      }),
     )
+    ;(
+      (contents.find(({ type }) => type === 'IMAGE')?.data ?? []) as string[]
+    ).forEach((photo, index) =>
+      formData.append('image', base64ToFile(photo, `${fileName}-${index}`)),
+    )
+
+    mutate(formData, {
+      onSuccess: goBack,
+      onSettled: (result, error) => console.log(result, error),
+    })
   }
 
   const handleRemove = (index: number) =>
@@ -323,7 +337,9 @@ export function useWriteRecord(
   return {
     metadata,
     submitEnabled:
-      Object.values(metadata).every(value => !!value) &&
+      Object.entries(metadata).every(
+        ([key, value]) => key === 'gatheringId' || !!value,
+      ) &&
       contents.length > 0 &&
       contents.every(({ data }) => !!data),
     handleSetTitle,

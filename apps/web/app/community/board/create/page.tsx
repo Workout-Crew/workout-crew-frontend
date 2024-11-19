@@ -10,7 +10,7 @@ import { useBridgeStore } from '../../../provider'
 
 export default function CreateBoardPage() {
   const goBack = useBridgeStore(store => store.goBack)
-  const { mutate } = useCreateCategory()
+  const { mutate, isPending } = useCreateCategory()
   const [{ name, description }, setBoard] = useState<{
     name: string
     description: string
@@ -51,7 +51,7 @@ export default function CreateBoardPage() {
       <Button
         size={48}
         variant="primary"
-        disabled={!name || !description}
+        disabled={!name || !description || isPending}
         onClick={handleCreate}
         style={{ marginTop: 'auto' }}
       >

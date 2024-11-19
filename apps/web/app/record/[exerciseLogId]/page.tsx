@@ -46,10 +46,10 @@ export default function RecordDetailPage({
 
       <Stack style={{ gap: 16, padding: 0 }}>
         {exerciseLog.description && (
-          <Memo initialContents={exerciseLog.description} readOnly />
+          <Memo contents={exerciseLog.description} readOnly />
         )}
 
-        {exerciseLog.intensity && (
+        {!!exerciseLog.intensity && (
           <Intensity intensity={exerciseLog.intensity} readOnly />
         )}
 

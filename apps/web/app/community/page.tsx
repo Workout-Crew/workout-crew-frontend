@@ -22,7 +22,7 @@ export default function CommunityPage() {
   } = useGetCategoryList()
   const {
     data: { gatheringList },
-  } = useGetGatheringList('SEOUL', 'HEALTH') // 수정 필요
+  } = useGetGatheringList('SEOUL', 'HEALTH') // Fixme
 
   return (
     <>
