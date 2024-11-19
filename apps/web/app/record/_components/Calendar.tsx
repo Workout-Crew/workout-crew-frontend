@@ -67,7 +67,11 @@ export default function Calendar({ date, handleSelectDate }: Props) {
           </Text>
           <Icon type="chevronRight" size={18} onClick={handleSetNextMonth} />
         </div>
-        <Button size={32} variant="primary">
+        <Button
+          size={32}
+          variant="primary"
+          onClick={() => handleSelectDate(new Date())}
+        >
           오늘도 돌아가기
         </Button>
       </div>
@@ -97,7 +101,7 @@ export default function Calendar({ date, handleSelectDate }: Props) {
           return isSameMonth(targetDate, date) ? (
             <Day
               active={isSameDay(date, targetDate)}
-              onClick={() => handleSelectDate(date)}
+              onClick={() => handleSelectDate(targetDate)}
               key={key}
             >
               {targetDate.getDate()}

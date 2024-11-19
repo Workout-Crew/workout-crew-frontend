@@ -10,6 +10,9 @@ interface Props {
   title: string
   description: string
   gatheringId: string
+  isJoined: boolean
+  isLeader: boolean
+  isEnded: boolean
   onApply: () => void
 }
 
@@ -17,6 +20,9 @@ export default function GatheringContents({
   title,
   description,
   gatheringId,
+  isJoined,
+  isLeader,
+  isEnded,
   onApply,
 }: Props) {
   const { mutate } = useRequestJoiningGathering()
@@ -36,16 +42,25 @@ export default function GatheringContents({
 
       <Text typography="body2">{description}</Text>
 
-      <Spacing size={60} />
+      {!isLeader && (
+        <>
+          <Spacing size={60} />
 
-      <Button
-        size={48}
-        variant="primary"
-        onClick={handleApply}
-        style={{ marginTop: 'auto' }}
-      >
-        참가 신청하기
-      </Button>
+          <Button
+            size={48}
+            variant="primary"
+            disabled={isJoined || isEnded}
+            onClick={handleApply}
+            style={{ marginTop: 'auto' }}
+          >
+            {isJoined
+              ? '참가 신청 완료'
+              : isEnded
+                ? '참가 신청 마감'
+                : '참가 신청하기'}
+          </Button>
+        </>
+      )}
     </Stack>
   )
 }

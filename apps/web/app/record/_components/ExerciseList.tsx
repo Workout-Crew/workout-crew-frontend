@@ -1,38 +1,58 @@
 'use client'
 
+import { useGetExerciseLogWithDate } from '../../_api/exercise-log/useGetExerciseLogWithDate'
 import Button from '../../_components/Button'
 import ListItem from '../../_components/ListItem'
 import Stack from '../../_components/Stack'
 import Text from '../../_components/Text'
+import { getDate } from '../../_utils/date'
+import { getExercise } from '../../_utils/exercise'
+import { useBridgeStore } from '../../provider'
 import { format } from 'date-fns'
 
 interface Props {
   date: Date
 }
 
-const DUMMY_DATA = [
-  { id: 1, title: '헬스 등/어깨 루틴', type: '헬스', time: '14:00~15:00' },
-  { id: 2, title: '5km 중랑천 러닝', type: '러닝', time: '21:00~21:30' },
-]
-
 export default function ExerciseList({ date }: Props) {
+  const push = useBridgeStore(store => store.push)
+  const { data, isFetching } = useGetExerciseLogWithDate(date)
+
   return (
     <Stack style={{ gap: 20, padding: 16 }}>
       <Text typography="title1">{format(date, 'dd')}일 운동 기록</Text>
 
-      <Stack style={{ gap: 16, padding: 0 }}>
-        {DUMMY_DATA.map(({ id, title, type, time }) => (
-          <ListItem
-            title={title}
-            description={`${type} / ${time}`}
-            onClick={() => null}
-            key={id}
-          />
-        ))}
-      </Stack>
+      {!isFetching && (
+        <Stack style={{ gap: 16, padding: 0 }}>
+          {data?.exerciseLogByDateList &&
+          data.exerciseLogByDateList.length > 0 ? (
+            data.exerciseLogByDateList.map(
+              ({ id, title, exerciseType, startTime, endTime }) => (
+                <ListItem
+                  title={title}
+                  description={`${getExercise(exerciseType)} / ${format(new Date(startTime), 'HH:mm')}~${format(new Date(endTime), 'HH:mm')}`}
+                  onClick={() => push(`/record/${id}`)}
+                  key={id}
+                />
+              ),
+            )
+          ) : (
+            <Text
+              typography="body1"
+              style={{ width: '100%', padding: '64px 0', textAlign: 'center' }}
+            >
+              작성한 운동 기록이 없습니다.
+            </Text>
+          )}
+        </Stack>
+      )}
 
-      <Button size={48} variant="primary" onClick={() => null}>
-        기록 추가하기
+      <Button
+        size={48}
+        variant="primary"
+        onClick={() => push(`/record/write?date=${getDate(date)}`)}
+      >
+        기록 작성하기
       </Button>
     </Stack>
   )

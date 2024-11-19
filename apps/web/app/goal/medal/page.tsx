@@ -1,62 +1,65 @@
+'use client'
+
+import { useGetTotalMedal } from '../../_api/medal/useGetTotalMedal'
+import { MedalGradeType, MedalType } from '../../_api/model'
 import MedalCount from '../../_components/MedalCount'
 import Spacing from '../../_components/Spacing'
 import Stack from '../../_components/Stack'
 import Text from '../../_components/Text'
+import { useSetTitle } from '../../_hooks/useSetTitle'
+import { getLabel, getMedalTitle } from '../../_utils/medal'
 
-const MOCK_DATA = {
-  WRITE_EXERCISE_LOG: {
-    gold: { current: 0, total: 10 },
-    silver: { current: 0, total: 5 },
-    bronze: { current: 0, total: 3 },
-  },
-  WRITE_EXERCISE_LOG_TEST: {
-    gold: { current: 0, total: 10 },
-    silver: { current: 0, total: 5 },
-    bronze: { current: 0, total: 3 },
-  },
-} as const
-
-const METADATA_BY_TYPE: Record<
-  keyof typeof MOCK_DATA,
-  { title: string; suffix: string }
-> = {
-  WRITE_EXERCISE_LOG: { title: '운동 기록 작성 횟수', suffix: '회' },
-  WRITE_EXERCISE_LOG_TEST: {
-    title: '운동 기록 테스트 작성 횟수',
-    suffix: '회',
-  },
-}
+type ClusteredMedalType = Record<
+  MedalType,
+  Record<MedalGradeType, { value: number; alreadyGet: boolean }>
+>
 
 export default function MedalPage() {
+  useSetTitle('전체 미션 목록')
+
+  const { data } = useGetTotalMedal()
+
+  const filtered = data.medalInfo.reduce<ClusteredMedalType>(
+    (total, { medalType, medalRank, value, alreadyGet }) => {
+      if (medalType in total) {
+        return {
+          ...total,
+          [medalType]: {
+            ...total[medalType],
+            [medalRank]: { value, alreadyGet },
+          },
+        }
+      } else {
+        return { ...total, [medalType]: { [medalRank]: { value, alreadyGet } } }
+      }
+    },
+    {} as ClusteredMedalType,
+  )
+
   return (
     <Stack style={{ gap: 32, padding: 16 }}>
-      {Object.entries(MOCK_DATA).map(([type, { gold, silver, bronze }]) => {
-        const { title, suffix } =
-          METADATA_BY_TYPE[type as keyof typeof MOCK_DATA]
+      {Object.entries(filtered).map(([type, { GOLD, SILVER, BRONZE }]) => (
+        <div key={type}>
+          <Text typography="title1">{getMedalTitle(type as MedalType)}</Text>
 
-        return (
-          <div key={type}>
-            <Text typography="title1">{title}</Text>
+          <Spacing size={10} />
 
-            <Spacing size={10} />
-
-            <MedalCount
-              gold={{
-                label: `${gold.total}${suffix}`,
-                disabled: gold.total > gold.current,
-              }}
-              silver={{
-                label: `${silver.total}${suffix}`,
-                disabled: silver.total > silver.current,
-              }}
-              bronze={{
-                label: `${bronze.total}${suffix}`,
-                disabled: bronze.total > bronze.current,
-              }}
-            />
-          </div>
-        )
-      })}
+          <MedalCount
+            gold={{
+              label: getLabel(type as MedalType, GOLD.value),
+              disabled: !GOLD.alreadyGet,
+            }}
+            silver={{
+              label: getLabel(type as MedalType, SILVER.value),
+              disabled: !SILVER.alreadyGet,
+            }}
+            bronze={{
+              label: getLabel(type as MedalType, BRONZE.value),
+              disabled: !BRONZE.alreadyGet,
+            }}
+          />
+        </div>
+      ))}
     </Stack>
   )
 }

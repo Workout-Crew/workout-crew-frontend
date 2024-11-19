@@ -3,6 +3,7 @@ import { useNavigation } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { useBridge } from '@webview-bridge/react-native'
 import Header from '../components/Header'
+import HeaderMenu from '../components/HeaderMenu'
 import { WebViewScreen } from '../components/WebViewScreen'
 import { bridge } from '../utils/bridge'
 import HomeTab from './HomeTab'
@@ -72,6 +73,15 @@ export default function RootStack() {
           <Stack.Screen
             name={RootStackScreens.WEBVIEW}
             component={WebViewScreen}
+            options={{
+              headerLeft: () => (
+                <HeaderMenu>
+                  {({ goBack }) => (
+                    <HeaderMenu.MenuItem type="prev" onPress={goBack} />
+                  )}
+                </HeaderMenu>
+              ),
+            }}
           />
         </>
       )}

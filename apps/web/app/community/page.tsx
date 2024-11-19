@@ -94,21 +94,21 @@ export default function CommunityPage() {
           {gatheringList.length > 0 ? (
             gatheringList.map(
               ({
-                // id,
+                gatheringId,
                 title,
                 description,
                 place,
                 leaderNickname,
-                maximumNumber,
+                currentNumber,
                 startDate,
               }) => (
                 <PostItem
                   title={title}
                   description={description}
-                  label={`${leaderNickname} / ${getPlace(place)} / 참가자 ${maximumNumber}명 / ${format(new Date(startDate), 'MM월 dd일')}`}
+                  label={`${leaderNickname} / ${getPlace(place)} / 참가자 ${currentNumber}명 / ${format(new Date(startDate), 'MM월 dd일')}`}
                   image={null}
-                  onClick={() => push(`/community/gathering/${title}`)}
-                  key={title}
+                  onClick={() => push(`/community/gathering/${gatheringId}`)}
+                  key={gatheringId}
                 />
               ),
             )

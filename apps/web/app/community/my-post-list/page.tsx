@@ -6,10 +6,13 @@ import Divider from '../../_components/Divider'
 import PostItem from '../../_components/PostItem'
 import Stack from '../../_components/Stack'
 import Text from '../../_components/Text'
+import { useSetTitle } from '../../_hooks/useSetTitle'
 import { formatDistanceToNow } from 'date-fns'
 import { ko } from 'date-fns/locale'
 
 export default function MyPostListPage() {
+  useSetTitle('작성한 게시글')
+
   const {
     data: { boardList },
   } = useGetMyPostList()

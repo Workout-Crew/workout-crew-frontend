@@ -19,3 +19,16 @@ export const getMedalTitle = (type: MedalType) => MEDAL_TITLE[type]
 
 export const getMissionName = (type: MedalType, count: number) =>
   MISSION_NAME[type](count)
+
+export const getLabel = (type: MedalType, count: number) => {
+  switch (type) {
+    case 'WRITE_EXERCISE_LOG':
+      return `${count}회`
+    case 'WRITE_GATHERING_EXERCISE_LOG':
+      return `${count}회`
+    case 'MAKE_GATHERING':
+      return `${count}회`
+    case 'WRITE_VARIOUS_EXERCISE_TYPE':
+      return `${count}가지`
+  }
+}

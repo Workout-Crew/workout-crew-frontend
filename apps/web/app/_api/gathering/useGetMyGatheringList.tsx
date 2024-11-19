@@ -3,7 +3,7 @@ import { QUERY_KEY } from '../queryKey'
 import { useQuery } from '../useQuery'
 
 type GatheringListType = {
-  gatheringList: Array<GatheringType>
+  gatheringList: Array<GatheringType & { gatheringExerciseLog: boolean }>
 }
 
 export function useGetMyGatheringList() {

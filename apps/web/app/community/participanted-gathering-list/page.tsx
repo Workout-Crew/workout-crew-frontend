@@ -6,11 +6,14 @@ import Divider from '../../_components/Divider'
 import PostItem from '../../_components/PostItem'
 import Stack from '../../_components/Stack'
 import Text from '../../_components/Text'
+import { useSetTitle } from '../../_hooks/useSetTitle'
 import { getPlace } from '../../_utils/gathering'
 import { useBridgeStore } from '../../provider'
 import { format } from 'date-fns'
 
 export default function ParticipantedGatheringListPage() {
+  useSetTitle('내가 신청한 모임')
+
   const push = useBridgeStore(store => store.push)
   const {
     data: { gatheringList },
@@ -22,23 +25,24 @@ export default function ParticipantedGatheringListPage() {
         gatheringList.map(
           (
             {
+              gatheringId,
               title,
               description,
               place,
               leaderNickname,
-              maximumNumber,
+              currentNumber,
               startDate,
             },
             index,
             list,
           ) => (
-            <Fragment key={title}>
+            <Fragment key={gatheringId}>
               <PostItem
                 title={title}
                 description={description}
-                label={`${leaderNickname} / ${getPlace(place)} / 참가자 ${maximumNumber}명 / ${format(new Date(startDate), 'MM월 dd일')}`}
+                label={`${leaderNickname} / ${getPlace(place)} / 참가자 ${currentNumber}명 / ${format(new Date(startDate), 'MM월 dd일')}`}
                 image={null}
-                onClick={() => push(`/community/gathering/${title}`)}
+                onClick={() => push(`/community/gathering/${gatheringId}`)}
                 style={{ padding: '16px 0' }}
               />
 

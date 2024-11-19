@@ -5,6 +5,7 @@ import { useQuery } from '../useQuery'
 type GatheringDetailType = GatheringType & {
   exerciseType: ExerciseType
   leader: boolean
+  isJoined: boolean
 }
 
 export function useGetGatheringDetail(gatheringId: number) {

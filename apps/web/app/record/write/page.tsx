@@ -1,14 +1,19 @@
+'use client'
+
 import Button from '../../_components/Button'
 import Divider from '../../_components/Divider'
 import Spacing from '../../_components/Spacing'
 import Stack from '../../_components/Stack'
 import Text from '../../_components/Text'
+import { useSetTitle } from '../../_hooks/useSetTitle'
 import { BORDER_COLOR, FONT_COLOR } from '../../_styles/color'
 import ImageList from '../_components/ImageList'
 import Intensity from '../_components/Intensity'
 import Memo from '../_components/Memo'
 
 export default function RecordWritePage() {
+  useSetTitle('기록 작성하기')
+
   return (
     <Stack style={{ padding: 16 }}>
       <input

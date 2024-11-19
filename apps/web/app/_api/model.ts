@@ -19,7 +19,7 @@ export type PostType = {
 }
 
 export type CommentType = {
-  id: number
+  commentId: number
   writer: string
   content: string
   createdDate: string // "2024-11-18T05:27:53.019Z"
@@ -38,9 +38,11 @@ export type PlaceType =
   | 'SEOUL'
 
 export type GatheringType = {
+  gatheringId: number
   title: string
   description: string
   leaderNickname: string
   place: PlaceType
+  currentNumber: number
   startDate: string // "2024-11-19T09:18:19.463Z"
 }

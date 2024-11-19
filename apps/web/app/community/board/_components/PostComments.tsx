@@ -39,19 +39,21 @@ export default function PostComments({ boardId, comments, onSend }: Props) {
 
   return (
     <Stack style={{ flex: 1, padding: 16 }}>
-      {comments.map(({ id, writer, content, createdDate }, index, list) => (
-        <Fragment key={id}>
-          <PostItem
-            title={writer}
-            description={content}
-            label={format(new Date(createdDate), 'yyyy-MM-dd HH:mm')}
-            image={null}
-            style={{ padding: '8px 0' }}
-          />
+      {comments.map(
+        ({ commentId, writer, content, createdDate }, index, list) => (
+          <Fragment key={commentId}>
+            <PostItem
+              title={writer}
+              description={content}
+              label={format(new Date(createdDate), 'yyyy-MM-dd HH:mm')}
+              image={null}
+              style={{ padding: '8px 0' }}
+            />
 
-          {index + 1 < list.length && <Divider />}
-        </Fragment>
-      ))}
+            {index + 1 < list.length && <Divider />}
+          </Fragment>
+        ),
+      )}
 
       <Spacing size={30} />
 

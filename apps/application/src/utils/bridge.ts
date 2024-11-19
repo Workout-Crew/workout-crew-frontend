@@ -26,6 +26,7 @@ type BridgeActionType = {
   ): Promise<void>
   goBack(): Promise<void>
   reset(): Promise<void>
+  setTitle(title: string): Promise<void>
   login(token?: string): ActionResponseType<string>
   logout(): Promise<void>
   refetchUser(): Promise<void>
@@ -41,6 +42,7 @@ type BridgeActionType = {
 export const bridge = createBridge<BridgeStoreType & BridgeActionType>(
   ({ get, set }) => ({
     user: null,
+    title: null,
     async push(pathname: string) {
       navigationRef.dispatch(StackActions.push(Screens.WEBVIEW, { pathname }))
     },
@@ -57,6 +59,7 @@ export const bridge = createBridge<BridgeStoreType & BridgeActionType>(
     async reset() {
       navigationRef.reset({ index: 0, routes: [{ name: Screens.MAIN }] })
     },
+    async setTitle(_title: string) {},
     async login(token?: string) {
       try {
         if (get().user) {

@@ -153,17 +153,25 @@ export default function GatheringPage() {
       <Stack>
         {gatheringList.map(
           (
-            { title, description, place, leaderNickname, startDate },
+            {
+              gatheringId,
+              title,
+              description,
+              place,
+              leaderNickname,
+              currentNumber,
+              startDate,
+            },
             index,
             list,
           ) => (
-            <Fragment key={title}>
+            <Fragment key={gatheringId}>
               <PostItem
                 title={title}
                 description={description}
-                label={`${leaderNickname} / ${getPlace(place)} / 참가자 ${0}명 / ${format(new Date(startDate), 'MM월 dd일')}`}
+                label={`${leaderNickname} / ${getPlace(place)} / 참가자 ${currentNumber}명 / ${format(new Date(startDate), 'MM월 dd일')}`}
                 image={null}
-                onClick={() => push(`/community/gathering/${title}`)}
+                onClick={() => push(`/community/gathering/${gatheringId}`)}
                 style={{ padding: '16px 0' }}
               />
 

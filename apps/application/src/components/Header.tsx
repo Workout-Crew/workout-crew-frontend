@@ -2,6 +2,7 @@ import { ReactNode, createElement } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { BottomTabHeaderProps } from '@react-navigation/bottom-tabs'
 import { NativeStackHeaderProps } from '@react-navigation/native-stack'
+import HeaderMenu from './HeaderMenu'
 
 const styles = StyleSheet.create({
   container: {
@@ -30,15 +31,15 @@ const styles = StyleSheet.create({
 })
 
 export default function Header({
-  options: { headerLeft, headerTitle, headerRight },
+  options: { title, headerLeft, headerRight },
 }: NativeStackHeaderProps | BottomTabHeaderProps) {
   return (
     <View style={styles.container}>
       {headerLeft && createElement(headerLeft as () => ReactNode)}
 
-      {headerTitle && (
+      {title && (
         <View style={styles.title}>
-          {createElement(headerTitle as () => ReactNode)}
+          <HeaderMenu.Title>{title}</HeaderMenu.Title>
         </View>
       )}
 
