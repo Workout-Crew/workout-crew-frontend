@@ -1,25 +1,15 @@
-import { useQuery } from '@tanstack/react-query'
-import { http } from '../http'
-import { ExerciseType } from '../model'
+import { ExerciseType, GatheringType } from '../model'
 import { QUERY_KEY } from '../queryKey'
+import { useQuery } from '../useQuery'
 
-type GatheringDetailType = {
-  title: string
-  content: string
-  leaderNickname: string
-  place: 'SEOUL'
+type GatheringDetailType = GatheringType & {
   exerciseType: ExerciseType
-  startDate: string // "2024-11-18T05:12:58.215Z"
-  maximumNumber: number
   leader: boolean
 }
 
 export function useGetGatheringDetail(gatheringId: number) {
-  return useQuery({
-    queryKey: QUERY_KEY.gathering.detail(gatheringId),
-    queryFn: async () =>
-      await http.get<GatheringDetailType>(
-        `/api/gathering/detail/${gatheringId}`,
-      ),
-  })
+  return useQuery<GatheringDetailType>(
+    QUERY_KEY.gathering.detail(gatheringId),
+    `/api/gathering/detail/${gatheringId}`,
+  )
 }

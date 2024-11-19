@@ -1,5 +1,4 @@
-import { useMutation } from '@tanstack/react-query'
-import { http } from '../http'
+import { useMutation } from '../useMutation'
 
 type RequestBody = {
   name: string
@@ -7,8 +6,5 @@ type RequestBody = {
 }
 
 export function useCreateCategory() {
-  return useMutation({
-    mutationFn: async (requestBody: RequestBody) =>
-      await http.post('/api/board/category', requestBody),
-  })
+  return useMutation<RequestBody>('/api/board/category')
 }

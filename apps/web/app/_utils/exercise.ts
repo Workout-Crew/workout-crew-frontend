@@ -1,6 +1,6 @@
 import { ExerciseType } from '../_api/model'
 
-const EXERCISE: Record<ExerciseType, string> = {
+export const EXERCISE: Record<ExerciseType, string> = {
   RUNNING: '러닝',
   HEALTH: '헬스',
   SWIMMING: '수영',

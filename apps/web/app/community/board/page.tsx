@@ -1,77 +1,55 @@
 'use client'
 
+import { useState } from 'react'
+import { useGetCategoryListWithKeyword } from '../../_api/board/useGetCategoryListWithKeyword'
 import Input from '../../_components/Input'
 import ListItem from '../../_components/ListItem'
 import Separator from '../../_components/Separator'
 import Stack from '../../_components/Stack'
-
-const DUMMY_DATA = [
-  {
-    id: 1,
-    name: '운동 정보 게시판',
-    description: '운동에 관한 유익한 정보를 공유해요',
-  },
-  {
-    id: 2,
-    name: '운동 사진 게시판',
-    description: '운동하면서 촬영한 사진을 올려주세요',
-  },
-  {
-    id: 3,
-    name: '식단 게시판',
-    description: '어떤 식단을 구성했는지 올려주세요',
-  },
-  {
-    id: 4,
-    name: '클라이밍 게시판',
-    description: null,
-  },
-  {
-    id: 5,
-    name: '러닝 게시판',
-    description: '러닝에 관심 많은 사람 모여라',
-  },
-  {
-    id: 6,
-    name: '헬스 게시판',
-    description: '헬스 게시판이에요',
-  },
-  {
-    id: 7,
-    name: '축구 게시판',
-    description: '축구 얘기 나눠요',
-  },
-  {
-    id: 8,
-    name: '농구 게시판',
-    description: null,
-  },
-  {
-    id: 9,
-    name: '테니스 게시판',
-    description: null,
-  },
-]
+import Text from '../../_components/Text'
+import useDebounce from '../../_hooks/useDebounce'
+import { useBridgeStore } from '../../provider'
 
 export default function BoardPage() {
+  const push = useBridgeStore(store => store.push)
+  const [search, setSearch] = useState<string>('')
+  const debouncedValue = useDebounce(search, 300)
+  const { data, isLoading } = useGetCategoryListWithKeyword(debouncedValue)
+
   return (
     <>
       <Stack style={{ padding: 16 }}>
-        <Input placeholder="다른 게시판을 검색해보세요." />
+        <Input
+          type="text"
+          value={search}
+          onChange={event => setSearch(event.target.value)}
+          placeholder="다른 게시판을 검색해보세요."
+        />
       </Stack>
 
       <Separator />
 
-      <Stack style={{ gap: 16, padding: 16 }}>
-        {DUMMY_DATA.map(({ id, name, description }) => (
-          <ListItem
-            title={name}
-            description={description}
-            onClick={() => null}
-            key={id}
-          />
-        ))}
-      </Stack>
+      {!isLoading && (
+        <Stack style={{ gap: 16, padding: 16 }}>
+          {data?.categoryList && data.categoryList.length > 0 ? (
+            data.categoryList.map(({ id, name, description }) => (
+              <ListItem
+                title={name}
+                description={description}
+                onClick={() => push(`/community/board/${id}`)}
+                key={id}
+              />
+            ))
+          ) : (
+            <Text
+              typography="body1"
+              style={{ width: '100%', padding: '64px 0', textAlign: 'center' }}
+            >
+              개설한 모임이 없습니다.
+            </Text>
+          )}
+        </Stack>
+      )}
     </>
   )
 }

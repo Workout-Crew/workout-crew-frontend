@@ -47,6 +47,9 @@ importers:
       react-native-bootsplash:
         specifier: ^6.2.6
         version: 6.3.1(react-native@0.75.3)(react@18.3.1)
+      react-native-image-picker:
+        specifier: ^7.1.2
+        version: 7.1.2(react-native@0.75.3)(react@18.3.1)
       react-native-safe-area-context:
         specifier: ^4.14.0
         version: 4.14.0(react-native@0.75.3)(react@18.3.1)
@@ -129,6 +132,9 @@ importers:
       '@tanstack/react-query':
         specifier: ^5.60.5
         version: 5.60.5(react@18.3.1)
+      '@toss/use-overlay':
+        specifier: ^1.4.2
+        version: 1.4.2(react@18.3.1)
       '@use-funnel/browser':
         specifier: ^0.0.7
         version: 0.0.7(react@18.3.1)
@@ -2885,6 +2891,15 @@ packages:
       react: ^18 || ^19
     dependencies:
       '@tanstack/query-core': 5.60.5
+      react: 18.3.1
+    dev: false
+
+  /@toss/use-overlay@1.4.2(react@18.3.1):
+    resolution: {integrity: sha512-OYJKSKkldho8qrJR0xMJLpz85H68+E+y6H3y/N0XUed/b0ytbfU+fuxcPd14uiC8H0xzliTGBlY8GQP9Z/lteQ==}
+    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+    peerDependencies:
+      react: ^16.8 || ^17 || ^18
+    dependencies:
       react: 18.3.1
     dev: false
 
@@ -8290,6 +8305,16 @@ packages:
       '@babel/runtime': 7.26.0
       dotenv: 16.4.5
     dev: true
+
+  /react-native-image-picker@7.1.2(react-native@0.75.3)(react@18.3.1):
+    resolution: {integrity: sha512-b5y5nP60RIPxlAXlptn2QwlIuZWCUDWa/YPUVjgHc0Ih60mRiOg1PSzf0IjHSLeOZShCpirpvSPGnDExIpTRUg==}
+    peerDependencies:
+      react: '*'
+      react-native: '*'
+    dependencies:
+      react: 18.3.1
+      react-native: 0.75.3(@babel/core@7.26.0)(@babel/preset-env@7.26.0)(@types/react@18.3.12)(react@18.3.1)(typescript@5.0.4)
+    dev: false
 
   /react-native-is-edge-to-edge@1.1.6(react-native@0.75.3)(react@18.3.1):
     resolution: {integrity: sha512-1pHnFTlBahins6UAajXUqeCOHew9l9C2C8tErnpGC3IyLJzvxD+TpYAixnCbrVS52f7+NvMttbiSI290XfwN0w==}

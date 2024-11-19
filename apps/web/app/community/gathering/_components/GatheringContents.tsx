@@ -1,5 +1,6 @@
 'use client'
 
+import { useRequestJoiningGathering } from '../../../_api/gathering/useRequestJoiningGathering'
 import Button from '../../../_components/Button'
 import Spacing from '../../../_components/Spacing'
 import Stack from '../../../_components/Stack'
@@ -9,15 +10,22 @@ interface Props {
   title: string
   description: string
   gatheringId: string
+  onApply: () => void
 }
 
 export default function GatheringContents({
   title,
   description,
   gatheringId,
+  onApply,
 }: Props) {
+  const { mutate } = useRequestJoiningGathering()
+
   const handleApply = async () => {
-    console.log(gatheringId)
+    mutate(
+      { gatheringId: parseInt(gatheringId) },
+      { onSuccess: () => onApply() },
+    )
   }
 
   return (

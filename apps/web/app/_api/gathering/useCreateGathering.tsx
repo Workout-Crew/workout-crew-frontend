@@ -1,19 +1,14 @@
-import { useMutation } from '@tanstack/react-query'
-import { http } from '../http'
-import { ExerciseType } from '../model'
+import { ExerciseType, PlaceType } from '../model'
+import { useMutation } from '../useMutation'
 
 type RequestBodyType = {
   title: string
-  place: 'SEOUL'
+  place: PlaceType
   exerciseType: ExerciseType
   startDate: string
   content: string
-  maximumNumber: number
 }
 
 export function useCreateGathering() {
-  return useMutation({
-    mutationFn: async (body: RequestBodyType) =>
-      await http.post<RequestBodyType, {}>('/api/gathering', body),
-  })
+  return useMutation<RequestBodyType>('/api/gathering')
 }

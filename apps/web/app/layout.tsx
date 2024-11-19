@@ -4,6 +4,7 @@ import { ReactNode, Suspense } from 'react'
 import dynamic from 'next/dynamic'
 import localFont from 'next/font/local'
 import { usePathname } from 'next/navigation'
+import { OverlayProvider } from '@toss/use-overlay'
 import './_styles/global.css'
 import RootProvider from './provider'
 
@@ -36,7 +37,9 @@ export default function RootLayout({ children }: Props) {
       <body>
         <RootProvider>
           <TokenLoader disabled={pathname.startsWith('/login')}>
-            <Suspense fallback={null}>{children}</Suspense>
+            <OverlayProvider>
+              <Suspense fallback={null}>{children}</Suspense>
+            </OverlayProvider>
           </TokenLoader>
         </RootProvider>
       </body>

@@ -7,7 +7,7 @@ interface Props {
   title: string
   description: string
   writer: string
-  image: string
+  image: string | null
   date: string
 }
 
@@ -15,7 +15,7 @@ export default function PostInfo({
   title,
   description,
   writer,
-  // image,
+  image,
   date,
 }: Props) {
   return (
@@ -27,14 +27,16 @@ export default function PostInfo({
         </Text>
       </div>
 
-      <div
-        style={{
-          width: '100%',
-          height: 240,
-          borderRadius: 8,
-          background: '#D9D9D9',
-        }}
-      />
+      {image && (
+        <div
+          style={{
+            width: '100%',
+            height: 240,
+            borderRadius: 8,
+            background: '#D9D9D9',
+          }}
+        />
+      )}
 
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <Text typography="title2">{title}</Text>

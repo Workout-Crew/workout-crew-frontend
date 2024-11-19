@@ -1,74 +1,169 @@
 'use client'
 
-import { Fragment } from 'react'
+import { Fragment, useState } from 'react'
+import { useOverlay } from '@toss/use-overlay'
+import { useGetGatheringList } from '../../_api/gathering/useGetGatheringList'
+import { ExerciseType, PlaceType } from '../../_api/model'
+import BottomSheet from '../../_components/BottomSheet'
+import Button from '../../_components/Button'
 import Divider from '../../_components/Divider'
 import FloatingButton from '../../_components/FloatingButton'
+import Icon from '../../_components/Icon'
 import PostItem from '../../_components/PostItem'
 import Separator from '../../_components/Separator'
 import Stack from '../../_components/Stack'
-import GatheringFilter from './_components/GatheringFilter'
+import Text from '../../_components/Text'
+import { EXERCISE, getExercise } from '../../_utils/exercise'
+import { PLACE, getPlace } from '../../_utils/gathering'
+import { useBridgeStore } from '../../provider'
 import { format } from 'date-fns'
 
-const DUMMY_DATA = [
-  {
-    id: 1,
-    title: '축구할 사람 구해요',
-    description: '아침 11시에 대운동장에서 축구하는데, 같이 축구해요~',
-    city: '서울시',
-    organizer: '김철수',
-    participants: 8,
-    date: '2024-11-24',
-  },
-  {
-    id: 2,
-    title: '한강에서 같이 러닝할 사람~',
-    description:
-      '한강대교 남단에서 시작해서 북단 -> 이촌한강공원 -> 잠수교 북단 -> 세빛섬 -> 다시 남단으로 돌아오는 코스입니다. 같이 러닝하실 분?',
-    city: '서울시',
-    organizer: '김민수',
-    participants: 12,
-    date: '2024-11-23',
-  },
-  {
-    id: 3,
-    title: '양재 클라이밍팟',
-    description: '초보자들 많아요! 편하게 참여하세요~',
-    city: '서울시',
-    organizer: '김영희',
-    participants: 3,
-    date: '2024-11-21',
-  },
-  {
-    id: 4,
-    title: '풋살 인원 구합니다',
-    description: '저녁 7시에 6vs6 풋살 매치 진행할 사람 구해요',
-    city: '서울시',
-    organizer: '김민수',
-    participants: 6,
-    date: '2024-11-20',
-  },
-]
+type FilterType = {
+  place: PlaceType | undefined
+  exerciseType: ExerciseType | undefined
+}
 
 export default function GatheringPage() {
+  const overlay = useOverlay()
+  const push = useBridgeStore(store => store.push)
+  const [filter, setFilter] = useState<FilterType>({
+    place: undefined,
+    exerciseType: undefined,
+  })
+  const {
+    data: { gatheringList },
+  } = useGetGatheringList(filter.place, filter.exerciseType)
+
+  const handleSelectPlace = async () => {
+    const place = await new Promise<PlaceType | undefined>(resolve => {
+      overlay.open(({ exit }) => (
+        <BottomSheet
+          title="지역 선택하기"
+          onClose={() => {
+            exit()
+            resolve(undefined)
+          }}
+        >
+          {Object.entries(PLACE).map(([key, label], index, list) => (
+            <Fragment key={key}>
+              <div
+                onClick={() => {
+                  exit()
+                  resolve(key as PlaceType)
+                }}
+                style={{ padding: '16px 0' }}
+              >
+                <Text typography="body1">{label}</Text>
+              </div>
+
+              {index + 1 < list.length && <Divider />}
+            </Fragment>
+          ))}
+        </BottomSheet>
+      ))
+    })
+
+    if (place) setFilter(prev => ({ ...prev, place }))
+  }
+
+  const handleSelectExerciseType = async () => {
+    const exerciseType = await new Promise<ExerciseType | null>(resolve => {
+      overlay.open(({ exit }) => (
+        <BottomSheet
+          title="지역 선택하기"
+          onClose={() => {
+            exit()
+            resolve(null)
+          }}
+        >
+          {Object.entries(EXERCISE).map(([key, label], index, list) => (
+            <Fragment key={key}>
+              <div
+                onClick={() => {
+                  exit()
+                  resolve(key as ExerciseType)
+                }}
+                style={{ padding: '16px 0' }}
+              >
+                <Text typography="body1">{label}</Text>
+              </div>
+
+              {index + 1 < list.length && <Divider />}
+            </Fragment>
+          ))}
+        </BottomSheet>
+      ))
+    })
+
+    if (exerciseType) setFilter(prev => ({ ...prev, exerciseType }))
+  }
+
   return (
     <>
-      <GatheringFilter />
+      <Stack style={{ padding: 16 }}>
+        <div style={{ display: 'flex', gap: 8 }}>
+          <Button
+            size={32}
+            variant="secondary"
+            onClick={handleSelectPlace}
+            style={{ alignItems: 'center' }}
+          >
+            {filter.place ? (
+              <div style={{ display: 'flex', alignItems: 'center', gap: 3 }}>
+                {getPlace(filter.place)}{' '}
+                <Icon
+                  type="close"
+                  size={16}
+                  onClick={event => {
+                    event.stopPropagation()
+                    setFilter(prev => ({ ...prev, place: undefined }))
+                  }}
+                />
+              </div>
+            ) : (
+              '지역 선택하기'
+            )}
+          </Button>
+          <Button
+            size={32}
+            variant="secondary"
+            onClick={handleSelectExerciseType}
+          >
+            {filter.exerciseType ? (
+              <div style={{ display: 'flex', alignItems: 'center', gap: 3 }}>
+                {getExercise(filter.exerciseType)}{' '}
+                <Icon
+                  type="close"
+                  size={16}
+                  onClick={event => {
+                    event.stopPropagation()
+                    setFilter(prev => ({ ...prev, exerciseType: undefined }))
+                  }}
+                />
+              </div>
+            ) : (
+              '운동 종류 선택하기'
+            )}
+          </Button>
+        </div>
+      </Stack>
+
       <Separator />
 
       <Stack>
-        {DUMMY_DATA.map(
+        {gatheringList.map(
           (
-            { id, title, description, city, organizer, participants, date },
+            { title, description, place, leaderNickname, startDate },
             index,
             list,
           ) => (
-            <Fragment key={id}>
+            <Fragment key={title}>
               <PostItem
                 title={title}
                 description={description}
-                label={`${organizer} / ${city} / 참가자 ${participants}명 / ${format(new Date(date), 'MM월 dd일')}`}
+                label={`${leaderNickname} / ${getPlace(place)} / 참가자 ${0}명 / ${format(new Date(startDate), 'MM월 dd일')}`}
                 image={null}
-                onClick={() => null}
+                onClick={() => push(`/community/gathering/${title}`)}
                 style={{ padding: '16px 0' }}
               />
 
@@ -78,7 +173,9 @@ export default function GatheringPage() {
         )}
       </Stack>
 
-      <FloatingButton onClick={() => null}>모임 개설하기</FloatingButton>
+      <FloatingButton onClick={() => push(`/community/gathering/create`)}>
+        모임 개설하기
+      </FloatingButton>
     </>
   )
 }

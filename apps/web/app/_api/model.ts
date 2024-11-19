@@ -17,3 +17,30 @@ export type PostType = {
   commentCount: number
   createdDate: string // "2024-11-18T05:23:46.789Z"
 }
+
+export type CommentType = {
+  id: number
+  writer: string
+  content: string
+  createdDate: string // "2024-11-18T05:27:53.019Z"
+}
+
+export type PlaceType =
+  | 'CHUNGCHEONG_NORTH'
+  | 'CHUNGCHEONG_SOUTH'
+  | 'GYEONGSANG_NORTH'
+  | 'GYEONGSANG_SOUTH'
+  | 'JEJU'
+  | 'JEOLLA_NORTH'
+  | 'JEOLLA_SOUTH'
+  | 'KANGWON'
+  | 'KYUNGGI'
+  | 'SEOUL'
+
+export type GatheringType = {
+  title: string
+  description: string
+  leaderNickname: string
+  place: PlaceType
+  startDate: string // "2024-11-19T09:18:19.463Z"
+}

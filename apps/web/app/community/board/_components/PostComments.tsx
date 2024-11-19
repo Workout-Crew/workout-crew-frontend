@@ -1,54 +1,50 @@
 'use client'
 
-import { Fragment } from 'react'
+import { Fragment, useState } from 'react'
+import { useWriteComment } from '../../../_api/board/useWriteComment'
+import { CommentType } from '../../../_api/model'
 import Divider from '../../../_components/Divider'
 import Icon from '../../../_components/Icon'
 import PostItem from '../../../_components/PostItem'
 import Spacing from '../../../_components/Spacing'
 import Stack from '../../../_components/Stack'
 import { BORDER_COLOR, FONT_COLOR, SHAPE_COLOR } from '../../../_styles/color'
+import { useBridgeStore } from '../../../provider'
 import { format } from 'date-fns'
 
 interface Props {
-  postId: string
+  boardId: number
+  comments: Array<CommentType>
+  onSend: () => void
 }
 
-const DUMMY_DATA = [
-  {
-    id: 1,
-    writer: '김철수',
-    comments:
-      '완주를 목표로 하는 분들을 위해 12주간의 체계적인 마라톤 훈련 프로그램을 공유해요',
-    date: '2024-10-29 12:00:00',
-  },
-  {
-    id: 2,
-    writer: '김영희',
-    comments:
-      '달리기가 지루하다고 느끼는 사람들을 위해 재밌게 즐길 수 있는 방법을 공유해요',
-    date: '2024-10-29 12:00:00',
-  },
-  {
-    id: 3,
-    writer: '홍길동',
-    comments: '3km에 12분 뛸 수 있는 수준이면 어느 정도 수준이야?',
-    date: '2024-10-28 12:00:00',
-  },
-]
+export default function PostComments({ boardId, comments, onSend }: Props) {
+  const goBack = useBridgeStore(store => store.goBack)
+  const [comment, setComment] = useState<string>('')
+  const { mutate } = useWriteComment()
 
-export default function PostComments({ postId }: Props) {
   const handleSend = async () => {
-    console.log(postId)
+    if (comment) {
+      mutate(
+        { boardId, content: comment },
+        {
+          onSuccess: () => {
+            onSend()
+            goBack()
+          },
+        },
+      )
+    }
   }
 
   return (
     <Stack style={{ flex: 1, padding: 16 }}>
-      {DUMMY_DATA.map(({ id, writer, comments, date }, index, list) => (
+      {comments.map(({ id, writer, content, createdDate }, index, list) => (
         <Fragment key={id}>
           <PostItem
             title={writer}
-            description={comments}
-            label={format(new Date(date), 'yyyy-MM-dd HH:mm')}
+            description={content}
+            label={format(new Date(createdDate), 'yyyy-MM-dd HH:mm')}
             image={null}
             style={{ padding: '8px 0' }}
           />
@@ -72,7 +68,10 @@ export default function PostComments({ postId }: Props) {
           }}
         >
           <input
+            type="text"
+            value={comment}
             placeholder="댓글을 입력해주세요."
+            onChange={event => setComment(event.target.value)}
             style={{
               fontSize: 14,
               lineHeight: '20px',

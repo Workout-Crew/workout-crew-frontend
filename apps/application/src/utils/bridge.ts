@@ -1,5 +1,7 @@
+import { launchImageLibrary } from 'react-native-image-picker'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { login as KakaoLogin } from '@react-native-seoul/kakao-login'
+import { StackActions } from '@react-navigation/native'
 import {
   bridge as createBridge,
   createWebView,
@@ -33,13 +35,14 @@ type BridgeActionType = {
     data: unknown,
     isTokenRequired?: boolean,
   ): Promise<unknown>
+  getPhotos(limit?: number): Promise<string[]>
 }
 
 export const bridge = createBridge<BridgeStoreType & BridgeActionType>(
   ({ get, set }) => ({
     user: null,
     async push(pathname: string) {
-      navigationRef.navigate(Screens.WEBVIEW, { pathname })
+      navigationRef.dispatch(StackActions.push(Screens.WEBVIEW, { pathname }))
     },
     async navigate(
       screen: (typeof HomeTabScreens)[keyof typeof HomeTabScreens],
@@ -105,6 +108,17 @@ export const bridge = createBridge<BridgeStoreType & BridgeActionType>(
         endpoint,
         data,
         isTokenRequired && token ? { token } : {},
+      )
+    },
+    async getPhotos(limit: number = 10) {
+      const { assets } = await launchImageLibrary({
+        mediaType: 'photo',
+        selectionLimit: limit,
+        includeBase64: true,
+      })
+
+      return (
+        assets?.map(({ base64 }) => `data:image/jpeg;base64,${base64}`) || []
       )
     },
   }),
