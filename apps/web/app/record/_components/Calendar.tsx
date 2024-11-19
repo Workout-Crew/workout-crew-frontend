@@ -1,6 +1,8 @@
 'use client'
 
 import { useEffect } from 'react'
+import { useGetMonthlyExerciseLog } from '../../_api/exercise-log/useGetMonthlyExerciseLog'
+import { ExerciseType } from '../../_api/model'
 import Button from '../../_components/Button'
 import Icon from '../../_components/Icon'
 import Spacing from '../../_components/Spacing'
@@ -11,6 +13,7 @@ import {
   add,
   endOfMonth,
   format,
+  getDate,
   isSameDay,
   isSameMonth,
   startOfMonth,
@@ -26,7 +29,20 @@ interface Props {
 const WEEKS = ['일', '월', '화', '수', '목', '금', '토']
 
 export default function Calendar({ date, handleSelectDate }: Props) {
+  const {
+    data: { exerciseLogByMonthList },
+  } = useGetMonthlyExerciseLog(date)
   const { calendar, setViewing } = useLilius({ weekStartsOn: Week.SUNDAY })
+
+  const exercisesByDate = exerciseLogByMonthList.reduce<
+    Record<string, ExerciseType[]>
+  >((total, { exerciseType, startTime }) => {
+    const date = getDate(new Date(startTime)).toString()
+
+    if (date in total)
+      return { ...total, [date]: [...(total[date] ?? []), exerciseType] }
+    else return { ...total, [date]: [exerciseType] }
+  }, {})
 
   const handleSetPrevMonth = () => {
     const prevMonth = sub(date, { months: 1 })
@@ -101,6 +117,7 @@ export default function Calendar({ date, handleSelectDate }: Props) {
           return isSameMonth(targetDate, date) ? (
             <Day
               active={isSameDay(date, targetDate)}
+              exercises={exercisesByDate[getDate(targetDate).toString()] ?? []}
               onClick={() => handleSelectDate(targetDate)}
               key={key}
             >

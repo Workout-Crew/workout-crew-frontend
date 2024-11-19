@@ -1,8 +1,19 @@
 import { ExerciseType, PlaceType } from './model'
+import { format } from 'date-fns'
 
 export const QUERY_KEY = {
   exerciseLog: {
-    monthly: ['EXERCISE-LOG', 'MONTHLY'],
+    detail: (exerciseLogId: number) => [
+      'EXERCISE-LOG',
+      'DETAIL',
+      exerciseLogId.toString(),
+    ],
+    status: ['EXERCISE-LOG', 'STATUS'],
+    monthly: (date: Date) => [
+      'EXERCISE-LOG',
+      'MONTHLY',
+      format(date, 'yyyy-MM'),
+    ],
     date: (date: string) => ['EXERCISE-LOG', 'DATE', date],
   },
   medal: {

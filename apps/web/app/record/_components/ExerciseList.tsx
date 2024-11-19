@@ -27,19 +27,23 @@ export default function ExerciseList({ date }: Props) {
           {data?.exerciseLogByDateList &&
           data.exerciseLogByDateList.length > 0 ? (
             data.exerciseLogByDateList.map(
-              ({ id, title, exerciseType, startTime, endTime }) => (
+              ({ exerciseLogId, title, exerciseType, startTime, endTime }) => (
                 <ListItem
                   title={title}
                   description={`${getExercise(exerciseType)} / ${format(new Date(startTime), 'HH:mm')}~${format(new Date(endTime), 'HH:mm')}`}
-                  onClick={() => push(`/record/${id}`)}
-                  key={id}
+                  onClick={() =>
+                    push(
+                      `/record/${exerciseLogId}?date=${getDate(new Date(startTime))}`,
+                    )
+                  }
+                  key={exerciseLogId}
                 />
               ),
             )
           ) : (
             <Text
               typography="body1"
-              style={{ width: '100%', padding: '64px 0', textAlign: 'center' }}
+              style={{ width: '100%', padding: '48px 0', textAlign: 'center' }}
             >
               작성한 운동 기록이 없습니다.
             </Text>

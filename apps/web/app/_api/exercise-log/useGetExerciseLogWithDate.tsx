@@ -1,13 +1,13 @@
 import { useQuery } from '@tanstack/react-query'
+import { getDate } from '../../_utils/date'
 import { useBridgeStore } from '../../provider'
 import { ExerciseType } from '../model'
 import { QUERY_KEY } from '../queryKey'
 import axios from 'axios'
-import { format } from 'date-fns'
 
 type ExerciseLogType = {
   exerciseLogByDateList: Array<{
-    id: number
+    exerciseLogId: number
     title: string
     exerciseType: ExerciseType
     description: string
@@ -20,7 +20,7 @@ type ExerciseLogType = {
 
 export function useGetExerciseLogWithDate(date: Date) {
   const token = useBridgeStore(store => store.user?.id)
-  const formatted = format(date, 'yyyy-MM-dd')
+  const formatted = getDate(date)
 
   return useQuery({
     queryKey: QUERY_KEY.exerciseLog.date(formatted),

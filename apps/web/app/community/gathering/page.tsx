@@ -67,10 +67,10 @@ export default function GatheringPage() {
   }
 
   const handleSelectExerciseType = async () => {
-    const exerciseType = await new Promise<ExerciseType | null>(resolve => {
+    const exerciseType = await new Promise<ExerciseType | null>(resolve =>
       overlay.open(({ exit }) => (
         <BottomSheet
-          title="지역 선택하기"
+          title="운동 종류 선택하기"
           onClose={() => {
             exit()
             resolve(null)
@@ -92,8 +92,8 @@ export default function GatheringPage() {
             </Fragment>
           ))}
         </BottomSheet>
-      ))
-    })
+      )),
+    )
 
     if (exerciseType) setFilter(prev => ({ ...prev, exerciseType }))
   }

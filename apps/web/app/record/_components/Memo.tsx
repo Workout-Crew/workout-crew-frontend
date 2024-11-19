@@ -1,6 +1,6 @@
 'use client'
 
-import { ChangeEvent, useState } from 'react'
+import { ChangeEventHandler } from 'react'
 import Icon from '../../_components/Icon'
 import Spacing from '../../_components/Spacing'
 import Stack from '../../_components/Stack'
@@ -8,15 +8,18 @@ import Text from '../../_components/Text'
 import { BORDER_COLOR, FONT_COLOR, SHAPE_COLOR } from '../../_styles/color'
 
 interface Props {
-  initialContents?: string
+  contents: string
+  readOnly?: boolean
+  onChange?: ChangeEventHandler<HTMLTextAreaElement>
+  onRemove?: () => void
 }
 
-export default function Memo({ initialContents = '' }: Props) {
-  const [contents, setContents] = useState<string>(initialContents)
-
-  const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) =>
-    setContents(event.target.value)
-
+export default function Memo({
+  contents,
+  readOnly = false,
+  onChange,
+  onRemove,
+}: Props) {
   return (
     <Stack
       style={{
@@ -33,16 +36,19 @@ export default function Memo({ initialContents = '' }: Props) {
         }}
       >
         <Text typography="title2">자유 메모</Text>
-        <div>
-          <Icon type="more" />
-        </div>
+        {!readOnly && (
+          <div onClick={onRemove}>
+            <Icon type="close" />
+          </div>
+        )}
       </div>
 
       <Spacing size={16} />
 
       <textarea
         value={contents}
-        onChange={handleChange}
+        onChange={onChange}
+        readOnly={readOnly}
         style={{
           height: 120,
           padding: 16,

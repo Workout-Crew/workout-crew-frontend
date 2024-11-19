@@ -1,10 +1,11 @@
+import Image from 'next/image'
 import { BORDER_COLOR, FONT_COLOR } from '../_styles/color'
 
 interface Props {
   images: string[]
   column: number
   maxCount: number
-  onAppend: () => void
+  onAppend?: () => void
 }
 
 export default function Gallery({ images, column, maxCount, onAppend }: Props) {
@@ -27,14 +28,11 @@ export default function Gallery({ images, column, maxCount, onAppend }: Props) {
           }}
           key={index}
         >
-          <div
-            style={{ width: '100%', height: '100%', background: '#D9D9D9' }}
-          />
-          {/* <Image src={url} alt="사진" fill /> */}
+          <Image src={url} alt="사진" fill />
         </div>
       ))}
 
-      {images.length < maxCount && (
+      {onAppend && images.length < maxCount && (
         <button
           style={{
             width: '100%',

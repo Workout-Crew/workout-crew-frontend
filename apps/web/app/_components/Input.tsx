@@ -10,7 +10,13 @@ export default function Input({ label, style, ...props }: Props) {
   const id = useId()
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '10px',
+      }}
+    >
       <label htmlFor={id}>
         <Text typography="body2">{label}</Text>
       </label>
@@ -26,6 +32,7 @@ export default function Input({ label, style, ...props }: Props) {
           lineHeight: '20px',
           letterSpacing: '-0.5px',
           outline: 'none',
+          boxSizing: 'border-box',
           ...style,
         }}
         {...props}

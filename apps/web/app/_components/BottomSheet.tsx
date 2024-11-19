@@ -73,7 +73,9 @@ export default function BottomSheet({ title, onClose, children }: Props) {
 
         <Spacing size={16} />
 
-        <div style={{ flex: 1, overflowY: 'auto' }}>{children}</div>
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+          {children}
+        </div>
       </div>
     </div>
   )

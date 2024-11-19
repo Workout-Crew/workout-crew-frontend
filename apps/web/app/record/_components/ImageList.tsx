@@ -7,7 +7,19 @@ import Stack from '../../_components/Stack'
 import Text from '../../_components/Text'
 import { BORDER_COLOR } from '../../_styles/color'
 
-export default function ImageList() {
+interface Props {
+  images: string[]
+  readOnly?: boolean
+  onAppend?: () => void
+  onRemove?: () => void
+}
+
+export default function ImageList({
+  images,
+  readOnly,
+  onAppend,
+  onRemove,
+}: Props) {
   return (
     <Stack
       style={{
@@ -24,18 +36,20 @@ export default function ImageList() {
         }}
       >
         <Text typography="title2">사진 기록</Text>
-        <div>
-          <Icon type="more" />
-        </div>
+        {!readOnly && (
+          <div onClick={onRemove}>
+            <Icon type="close" />
+          </div>
+        )}
       </div>
 
       <Spacing size={16} />
 
       <Gallery
-        images={['a', 'b', 'c', 'd', 'e', 'f', 'g']}
-        column={5}
-        maxCount={10}
-        onAppend={() => null}
+        images={images}
+        column={4}
+        maxCount={8}
+        onAppend={!readOnly ? onAppend : undefined}
       />
     </Stack>
   )

@@ -17,6 +17,7 @@
     "application": "workspace:*",
     "axios": "^1.7.7",
     "date-fns": "^4.1.0",
+    "immer": "^10.1.1",
     "next": "14.2.6",
     "react": "18.3.1",
     "react-dom": "18.3.1",

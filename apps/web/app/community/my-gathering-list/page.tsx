@@ -9,6 +9,7 @@ import Spacing from '../../_components/Spacing'
 import Stack from '../../_components/Stack'
 import Text from '../../_components/Text'
 import { useSetTitle } from '../../_hooks/useSetTitle'
+import { getDate } from '../../_utils/date'
 import { useBridgeStore } from '../../provider'
 import { format, isAfter } from 'date-fns'
 
@@ -37,6 +38,7 @@ export default function MyGatheringListPage() {
             list,
           ) => {
             const isDone = isAfter(new Date(), new Date(startDate))
+            const date = new Date(startDate)
 
             return (
               <Fragment key={gatheringId}>
@@ -44,7 +46,7 @@ export default function MyGatheringListPage() {
                   <PostItem
                     title={title}
                     description={description}
-                    label={`참가자 ${currentNumber}명 / ${format(new Date(startDate), 'MM월 dd일')}`}
+                    label={`참가자 ${currentNumber}명 / ${format(date, 'MM월 dd일')}`}
                     image={null}
                     onClick={() => push(`/community/gathering/${gatheringId}`)}
                   />
@@ -56,7 +58,11 @@ export default function MyGatheringListPage() {
                         size={48}
                         variant="primary"
                         disabled={gatheringExerciseLog}
-                        onClick={() => push(`/record/write`)}
+                        onClick={() =>
+                          push(
+                            `/record/write?date=${getDate(date)}&gatheringId=${gatheringId}`,
+                          )
+                        }
                       >
                         {gatheringExerciseLog
                           ? '모임 기록 작성 완료'

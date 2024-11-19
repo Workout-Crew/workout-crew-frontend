@@ -1,6 +1,6 @@
 'use client'
 
-import { useGetMonthlyExerciseLog } from '../../_api/exercise-log/useGetMonthlyExerciseLog'
+import { useGetMonthlyExerciseStatus } from '../../_api/exercise-log/useGetMonthlyExerciseStatus'
 import BottomLink from '../../_components/BottomLink'
 import CardItem from '../../_components/CardItem'
 import Stack from '../../_components/Stack'
@@ -11,7 +11,7 @@ import { getExercise } from '../../_utils/exercise'
 import { useBridgeStore } from '../../provider'
 
 export default function MonthlyStatus() {
-  const { data } = useGetMonthlyExerciseLog()
+  const { data } = useGetMonthlyExerciseStatus()
   const push = useBridgeStore(store => store.push)
   const navigate = useBridgeStore(store => store.navigate)
 
@@ -41,7 +41,7 @@ export default function MonthlyStatus() {
               label={`${getExercise(exerciseType)} 추가 기록하기`}
               onClick={() =>
                 push(
-                  `/record/write?date=${getTodayDate()}&type=${exerciseType}`,
+                  `/record/write?date=${getTodayDate()}&exerciseType=${exerciseType}`,
                 )
               }
               key={exerciseType}
