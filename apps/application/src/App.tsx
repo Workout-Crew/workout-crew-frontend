@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { StatusBar } from 'react-native'
+import { LogBox, StatusBar } from 'react-native'
 import BootSplash from 'react-native-bootsplash'
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -8,6 +8,8 @@ import { useBridge } from '@webview-bridge/react-native'
 import RootStack from './routes/RootStack'
 import { navigationRef } from './routes/types'
 import { bridge } from './utils/bridge'
+
+LogBox.ignoreAllLogs()
 
 export default function App() {
   const user = useBridge(bridge, store => store.user)
@@ -28,8 +30,8 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <NavigationContainer ref={navigationRef}>
-        <StatusBar backgroundColor="#ffffff" barStyle="dark-content" />
-        <SafeAreaView style={{ flex: 1 }}>
+        <StatusBar backgroundColor="#ffffff" barStyle="light-content" />
+        <SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff' }}>
           <RootStack />
         </SafeAreaView>
       </NavigationContainer>

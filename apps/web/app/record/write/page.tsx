@@ -23,7 +23,7 @@ interface Props {
 export default function RecordWritePage({
   searchParams: { date, exerciseType, gatheringId },
 }: Props) {
-  useSetTitle('기록 작성하기')
+  useSetTitle(`${gatheringId ? '모임 ' : ''}기록 작성하기`)
 
   const {
     metadata,
@@ -49,7 +49,7 @@ export default function RecordWritePage({
           border: 0,
           outline: 'none',
           fontSize: 24,
-          fontWeight: 700,
+          fontWeight: 600,
           lineHeight: '24px',
           letterSpacing: '-1px',
           color: FONT_COLOR.black_primary,

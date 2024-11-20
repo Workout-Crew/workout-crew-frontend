@@ -18,7 +18,7 @@ export default function ExerciseTarget() {
   const refetchUser = useBridgeStore(store => store.refetchUser)
   const nickname = useBridgeStore(store => store.user?.nickname)
   const goal = useBridgeStore(store => store.user?.goal)
-  const { mutate } = useSetGoal()
+  const { mutate, isPending } = useSetGoal()
 
   const handleClick = async () => {
     const selectedGoal = await new Promise<GoalType | null>(resolve =>
@@ -79,7 +79,12 @@ export default function ExerciseTarget() {
         루틴과 강도를 추천드리기 위해 사용돼요.
       </Text>
 
-      <Button size={48} variant="primary" onClick={handleClick}>
+      <Button
+        size={48}
+        variant="primary"
+        disabled={isPending}
+        onClick={handleClick}
+      >
         운동 목표 변경하기
       </Button>
     </Stack>

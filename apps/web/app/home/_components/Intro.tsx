@@ -1,6 +1,6 @@
 'use client'
 
-import { ReactNode } from 'react'
+import { ReactNode, useState } from 'react'
 import Image, { StaticImageData } from 'next/image'
 import { useGetExerciseRecommendation } from '../../_api/recommendation/useGetExerciseRecommendation'
 import ChartImage from '../../_assets/intro/chart.png'
@@ -16,10 +16,12 @@ import { getTodayDate } from '../../_utils/date'
 import { getExercise } from '../../_utils/exercise'
 import { useBridgeStore } from '../../provider'
 
-const INTROS: Array<{
+type IntroUtilsType = {
   image: StaticImageData
   getTitle: (_nickname: string) => ReactNode
-}> = [
+}
+
+const INTROS: Array<IntroUtilsType> = [
   {
     image: ChartImage,
     getTitle: (nickname: string) => (
@@ -66,7 +68,9 @@ export default function Intro() {
   const { data } = useGetExerciseRecommendation()
   const nickname = useBridgeStore(store => store.user?.nickname)
   const push = useBridgeStore(store => store.push)
-  const { image, getTitle } = INTROS[Math.floor(Math.random() * INTROS.length)]!
+  const [{ image, getTitle }] = useState<IntroUtilsType>(
+    INTROS[Math.floor(Math.random() * INTROS.length)]!,
+  )
 
   if (!nickname) return null
   return (

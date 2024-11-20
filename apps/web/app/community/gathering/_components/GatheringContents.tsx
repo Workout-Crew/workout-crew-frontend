@@ -25,7 +25,7 @@ export default function GatheringContents({
   isEnded,
   onApply,
 }: Props) {
-  const { mutate } = useRequestJoiningGathering()
+  const { mutate, isPending } = useRequestJoiningGathering()
 
   const handleApply = async () => {
     mutate(
@@ -49,7 +49,7 @@ export default function GatheringContents({
           <Button
             size={48}
             variant="primary"
-            disabled={isJoined || isEnded}
+            disabled={isJoined || isEnded || isPending}
             onClick={handleApply}
             style={{ marginTop: 'auto' }}
           >

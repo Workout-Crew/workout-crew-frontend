@@ -2,15 +2,19 @@
 
 import { useState } from 'react'
 import { useGetCategoryListWithKeyword } from '../../_api/board/useGetCategoryListWithKeyword'
+import FloatingButton from '../../_components/FloatingButton'
 import Input from '../../_components/Input'
 import ListItem from '../../_components/ListItem'
 import Separator from '../../_components/Separator'
 import Stack from '../../_components/Stack'
 import Text from '../../_components/Text'
 import useDebounce from '../../_hooks/useDebounce'
+import { useSetTitle } from '../../_hooks/useSetTitle'
 import { useBridgeStore } from '../../provider'
 
 export default function BoardPage() {
+  useSetTitle('게시판 목록')
+
   const push = useBridgeStore(store => store.push)
   const [search, setSearch] = useState<string>('')
   const debouncedValue = useDebounce(search, 300)
@@ -36,7 +40,7 @@ export default function BoardPage() {
               <ListItem
                 title={name}
                 description={description}
-                onClick={() => push(`/community/board/${id}`)}
+                onClick={() => push(`/community/board/${id}?name=${name}`)}
                 key={id}
               />
             ))
@@ -50,6 +54,10 @@ export default function BoardPage() {
           )}
         </Stack>
       )}
+
+      <FloatingButton onClick={() => push(`/community/board/create`)}>
+        게시판 생성하기
+      </FloatingButton>
     </>
   )
 }

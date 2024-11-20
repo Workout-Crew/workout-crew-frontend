@@ -43,7 +43,7 @@ export default function ExerciseList({ date }: Props) {
           ) : (
             <Text
               typography="body1"
-              style={{ width: '100%', padding: '48px 0', textAlign: 'center' }}
+              style={{ width: '100%', padding: '32px 0', textAlign: 'center' }}
             >
               작성한 운동 기록이 없습니다.
             </Text>

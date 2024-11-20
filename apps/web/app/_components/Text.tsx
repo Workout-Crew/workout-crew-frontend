@@ -17,13 +17,13 @@ export const Typography = {
   title1: {
     fontSize: 16,
     lineHeight: '24px',
-    fontWeight: 700,
+    fontWeight: 600,
     letterSpacing: -0.5,
   },
   title2: {
     fontSize: 14,
     lineHeight: '24px',
-    fontWeight: 700,
+    fontWeight: 600,
     letterSpacing: -0.5,
   },
   body1: {
@@ -47,7 +47,7 @@ export const Typography = {
   label_bold: {
     fontSize: 10,
     lineHeight: '14px',
-    fontWeight: 700,
+    fontWeight: 600,
     letterSpacing: -0.5,
   },
   label_regular: {

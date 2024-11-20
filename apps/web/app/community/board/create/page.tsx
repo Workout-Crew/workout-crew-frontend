@@ -6,9 +6,12 @@ import Button from '../../../_components/Button'
 import Input from '../../../_components/Input'
 import Spacing from '../../../_components/Spacing'
 import Stack from '../../../_components/Stack'
+import { useSetTitle } from '../../../_hooks/useSetTitle'
 import { useBridgeStore } from '../../../provider'
 
 export default function CreateBoardPage() {
+  useSetTitle('게시판 생성하기')
+
   const goBack = useBridgeStore(store => store.goBack)
   const { mutate, isPending } = useCreateCategory()
   const [{ name, description }, setBoard] = useState<{

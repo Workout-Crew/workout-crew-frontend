@@ -68,6 +68,7 @@ export default function Button({
         display: 'grid',
         placeItems: 'center',
         borderRadius: 4,
+        transition: 'all 0.2s',
         ...STYLES[size][variant],
         ...(disabled && {
           background: isBigPrimary ? SHAPE_COLOR.depth_2 : SHAPE_COLOR.depth_1,

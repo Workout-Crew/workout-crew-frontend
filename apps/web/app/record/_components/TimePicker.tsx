@@ -31,7 +31,7 @@ const SELECT_STYLE = {
   color: FONT_COLOR.black_primary,
 }
 
-export default function TimeSelector({ date, onSubmit }: Props) {
+export default function TimePicker({ date, onSubmit }: Props) {
   const [{ startHour, startMinute, endHour, endMinute }, setTimes] =
     useState<TimeType>({
       startHour: '00',

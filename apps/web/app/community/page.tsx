@@ -22,7 +22,7 @@ export default function CommunityPage() {
   } = useGetCategoryList()
   const {
     data: { gatheringList },
-  } = useGetGatheringList('SEOUL', 'HEALTH') // Fixme
+  } = useGetGatheringList()
 
   return (
     <>
@@ -68,7 +68,7 @@ export default function CommunityPage() {
               <ListItem
                 title={name}
                 description={description}
-                onClick={() => push(`/community/board/${id}`)}
+                onClick={() => push(`/community/board/${id}?name=${name}`)}
                 key={id}
               />
             ))

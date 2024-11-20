@@ -7,12 +7,14 @@ import PostItem from '../../_components/PostItem'
 import Stack from '../../_components/Stack'
 import Text from '../../_components/Text'
 import { useSetTitle } from '../../_hooks/useSetTitle'
+import { useBridgeStore } from '../../provider'
 import { formatDistanceToNow } from 'date-fns'
 import { ko } from 'date-fns/locale'
 
 export default function PostListWithMyCommentsPage() {
   useSetTitle('작성한 댓글이 있는 게시글')
 
+  const push = useBridgeStore(state => state.push)
   const {
     data: { boardList },
   } = useGetPostListWithMyComment()
@@ -40,7 +42,7 @@ export default function PostListWithMyCommentsPage() {
                 description={content}
                 label={`${writer} / 댓글 ${commentCount}개 / ${formatDistanceToNow(new Date(createdDate), { addSuffix: true, locale: ko })}`}
                 image={imageList[0] || null}
-                onClick={() => null}
+                onClick={() => push(`/community/${id}`)}
                 style={{ padding: '16px 0' }}
               />
 

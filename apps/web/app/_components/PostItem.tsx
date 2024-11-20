@@ -59,7 +59,7 @@ export default function PostItem({
           alt="Thumbnail"
           width={58}
           height={58}
-          style={{ borderRadius: 8, objectFit: 'cover' }}
+          style={{ flexShrink: 0, borderRadius: 8, objectFit: 'cover' }}
         />
       )}
     </div>

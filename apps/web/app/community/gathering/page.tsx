@@ -13,6 +13,7 @@ import PostItem from '../../_components/PostItem'
 import Separator from '../../_components/Separator'
 import Stack from '../../_components/Stack'
 import Text from '../../_components/Text'
+import { useSetTitle } from '../../_hooks/useSetTitle'
 import { EXERCISE, getExercise } from '../../_utils/exercise'
 import { PLACE, getPlace } from '../../_utils/gathering'
 import { useBridgeStore } from '../../provider'
@@ -24,6 +25,8 @@ type FilterType = {
 }
 
 export default function GatheringPage() {
+  useSetTitle('참여 가능한 모임')
+
   const overlay = useOverlay()
   const push = useBridgeStore(store => store.push)
   const [filter, setFilter] = useState<FilterType>({

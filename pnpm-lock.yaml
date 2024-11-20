@@ -38,6 +38,9 @@ importers:
       '@webview-bridge/react-native':
         specifier: ^1.7.2
         version: 1.7.2(react-native-webview@13.12.3)(react@18.3.1)
+      buffer:
+        specifier: ^6.0.3
+        version: 6.0.3
       react:
         specifier: 18.3.1
         version: 18.3.1
@@ -4210,6 +4213,13 @@ packages:
     dependencies:
       base64-js: 1.5.1
       ieee754: 1.2.1
+
+  /buffer@6.0.3:
+    resolution: {integrity: sha512-FTiCpNxtwiZZHEZbcbTIcZjERVICn9yq/pDFkTl95/AxzD1naBctN7YO68riM/gLSDY7sdrMby8hofADYuuqOA==}
+    dependencies:
+      base64-js: 1.5.1
+      ieee754: 1.2.1
+    dev: false
 
   /builtin-modules@3.3.0:
     resolution: {integrity: sha512-zhaCDicdLuWN5UbN5IMnFqNMhNfo919sH85y2/ea+5Yg9TsTkeZxpL+JLbp6cgYFS4sRLp3YV4S6yDuqVWHYOw==}

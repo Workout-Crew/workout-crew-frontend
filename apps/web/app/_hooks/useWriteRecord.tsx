@@ -13,7 +13,7 @@ import { useBridgeStore } from '../provider'
 import ImageList from '../record/_components/ImageList'
 import Intensity from '../record/_components/Intensity'
 import Memo from '../record/_components/Memo'
-import TimeSelector from '../record/_components/TimeSelector'
+import TimePicker from '../record/_components/TimePicker'
 import { produce } from 'immer'
 
 type MetadataType = {
@@ -59,14 +59,12 @@ const TEMPLATE = {
 중량 :
 세트 :
 반복 횟수 :
-
 -------------------
-
-  `,
+(위 템플릿을 반복해서 작성해주세요.)
+`,
   running: `운동 장소 : 
 거리 : 
-시간 : 
-  `,
+시간 : `,
 }
 
 export function useWriteRecord(
@@ -77,7 +75,7 @@ export function useWriteRecord(
   const getPhotos = useBridgeStore(store => store.getPhotos)
   const goBack = useBridgeStore(store => store.goBack)
   const overlay = useOverlay()
-  const { mutate } = useCreateExerciseLog()
+  const { mutate, isPending } = useCreateExerciseLog()
 
   const [metadata, setMetadata] = useState<MetadataType>({
     title: '',
@@ -129,13 +127,13 @@ export function useWriteRecord(
       resolve =>
         overlay.open(({ exit }) => (
           <BottomSheet
-            title="운동 종류 선택하기"
+            title="운동 시간 선택하기"
             onClose={() => {
               exit()
               resolve(null)
             }}
           >
-            <TimeSelector
+            <TimePicker
               date={metadata.date}
               onSubmit={time => {
                 exit()
@@ -281,8 +279,8 @@ export function useWriteRecord(
         exerciseType,
         startTime: startTime.toISOString(),
         endTime: endTime.toISOString(),
-        description: '',
-        intensity: 0,
+        description: contents.find(({ type }) => type === 'MEMO')?.data ?? '',
+        intensity: contents.find(({ type }) => type === 'INTENSITY')?.data ?? 0,
         gatheringId,
       }),
     )
@@ -341,7 +339,11 @@ export function useWriteRecord(
         ([key, value]) => key === 'gatheringId' || !!value,
       ) &&
       contents.length > 0 &&
-      contents.every(({ data }) => !!data),
+      contents.every(({ data }) => {
+        if (Array.isArray(data)) return data.length > 0
+        else return !!data
+      }) &&
+      !isPending,
     handleSetTitle,
     handleSelectExerciseType,
     handleSelectTime,

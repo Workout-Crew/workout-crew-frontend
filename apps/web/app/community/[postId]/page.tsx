@@ -46,11 +46,8 @@ export default function PostPage({ params: { postId } }: Props) {
     <>
       <Stack style={{ gap: 16, padding: 16 }}>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <Text typography="title2">{boardContent.writer}</Text>
-          <Text
-            typography="label_regular"
-            fontColor={FONT_COLOR.black_tertiary}
-          >
+          <Text typography="title1">{boardContent.writer}</Text>
+          <Text typography="body2" fontColor={FONT_COLOR.black_tertiary}>
             {format(new Date(boardContent.createdDate), 'yyyy-MM-dd HH:mm')}
           </Text>
         </div>
@@ -73,8 +70,9 @@ export default function PostPage({ params: { postId } }: Props) {
         )}
 
         <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <Text typography="title2">{boardContent.title}</Text>
-          <Text typography="body2" fontColor={FONT_COLOR.black_secondary}>
+          <Text typography="title1">{boardContent.title}</Text>
+          <Spacing size={8} />
+          <Text typography="body1" fontColor={FONT_COLOR.black_secondary}>
             {boardContent.content}
           </Text>
         </div>
@@ -128,7 +126,7 @@ export default function PostPage({ params: { postId } }: Props) {
               placeholder="댓글을 입력해주세요."
               onChange={event => setComment(event.target.value)}
               style={{
-                fontSize: 14,
+                fontSize: 16,
                 lineHeight: '20px',
                 letterSpacing: '-0.5px',
                 color: FONT_COLOR.black_primary,

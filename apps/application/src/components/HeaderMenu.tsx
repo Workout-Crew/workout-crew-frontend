@@ -49,7 +49,7 @@ HeaderMenu.Title = function Title({ children }: TitleProps) {
   return (
     <Text
       style={{
-        fontSize: 16,
+        fontSize: 18,
         fontWeight: 700,
         lineHeight: 24,
         letterSpacing: -0.5,

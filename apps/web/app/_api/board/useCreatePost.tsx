@@ -1,12 +1,5 @@
-import { useMutation } from '@tanstack/react-query'
-import { useBridgeStore } from '../../provider'
-import axios from 'axios'
+import { useMutation } from '../useMutation'
 
 export function useCreatePost() {
-  const token = useBridgeStore(store => store.user?.id)
-
-  return useMutation({
-    mutationFn: async (formData: FormData) =>
-      axios.post('/community/board/api', formData, { headers: { token } }),
-  })
+  return useMutation<FormData>('/api/board')
 }

@@ -5,7 +5,7 @@ import KakaoImage from '../_assets/kakao.svg'
 import LogoImage from '../_assets/logo.svg'
 import Stack from '../_components/Stack'
 import Text from '../_components/Text'
-import { useBridgeStore } from './provider'
+import { useBridgeStore } from '../provider'
 
 export default function LoginPage() {
   const login = useBridgeStore(store => store.login)

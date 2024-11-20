@@ -6,15 +6,22 @@ import Divider from '../../../_components/Divider'
 import FloatingButton from '../../../_components/FloatingButton'
 import PostItem from '../../../_components/PostItem'
 import Stack from '../../../_components/Stack'
+import { useSetTitle } from '../../../_hooks/useSetTitle'
 import { useBridgeStore } from '../../../provider'
 import { formatDistanceToNow } from 'date-fns'
 import { ko } from 'date-fns/locale'
 
 interface Props {
   params: { boardId: string }
+  searchParams: { name: string }
 }
 
-export default function BoardPage({ params: { boardId } }: Props) {
+export default function BoardPage({
+  params: { boardId },
+  searchParams: { name },
+}: Props) {
+  useSetTitle(name)
+
   const push = useBridgeStore(store => store.push)
   const {
     data: { boardList },
@@ -43,7 +50,7 @@ export default function BoardPage({ params: { boardId } }: Props) {
                 description={content}
                 label={`${writer} / 댓글 ${commentCount}개 / ${formatDistanceToNow(new Date(createdDate), { addSuffix: true, locale: ko })}`}
                 image={imageList[0] || null}
-                onClick={() => null}
+                onClick={() => push(`/community/${id}`)}
                 style={{ padding: '16px 0' }}
               />
 

@@ -10,6 +10,7 @@ import { HomeTabScreens } from '../routes/HomeTab'
 import { Screens, navigationRef } from '../routes/types'
 import { http } from './http'
 import { UserType } from './types'
+import { Buffer } from 'buffer'
 
 type ActionResponseType<T> = Promise<
   { status: true; data: T } | { status: false; error: Error }
@@ -61,7 +62,17 @@ export const bridge = createBridge<BridgeStoreType & BridgeActionType>(
           throw new Error('Already logged in')
         }
 
-        const { idToken } = !token ? await KakaoLogin() : { idToken: token }
+        const idToken = !token
+          ? await KakaoLogin().then(
+              result =>
+                JSON.parse(
+                  Buffer.from(
+                    result.idToken.split('.')[1] as string,
+                    'base64',
+                  ).toString('utf8'),
+                ).aud,
+            )
+          : token
         const user = await http.post<{}, UserType>(
           `/api/kakao?token=${idToken}`,
           {},

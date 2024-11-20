@@ -55,7 +55,7 @@ export default function Memo({
           borderRadius: 8,
           border: 0,
           background: SHAPE_COLOR.depth_1,
-          fontSize: 14,
+          fontSize: 16,
           lineHeight: '20px',
           letterSpacing: '-0.5px',
           color: FONT_COLOR.black_primary,

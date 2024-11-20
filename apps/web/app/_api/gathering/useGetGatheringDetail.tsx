@@ -4,7 +4,7 @@ import { useQuery } from '../useQuery'
 
 type GatheringDetailType = GatheringType & {
   exerciseType: ExerciseType
-  leader: boolean
+  isLeader: boolean
   isJoined: boolean
 }
 

@@ -88,7 +88,7 @@ export default function WritePostPage({ searchParams: { categoryId } }: Props) {
             padding: 16,
             borderRadius: '4px',
             border: `1px solid ${BORDER_COLOR.button}`,
-            fontSize: '14px',
+            fontSize: 16,
             lineHeight: '20px',
             letterSpacing: '-0.5px',
             color: FONT_COLOR.black_primary,
