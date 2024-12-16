@@ -2,7 +2,6 @@ import { MouseEventHandler, ReactNode } from 'react'
 import { FONT_COLOR, SHAPE_COLOR } from '../_styles/color'
 import Divider from './Divider'
 import Icon from './Icon'
-import Spacing from './Spacing'
 import Text from './Text'
 
 interface Props {
@@ -14,15 +13,16 @@ export default function BottomLink({ children, onClick }: Props) {
   return (
     <div>
       <Divider />
-      <Spacing size={16} />
       <button
         onClick={onClick}
         style={{
           display: 'flex',
+          justifyContent: 'center',
           alignItems: 'center',
+          width: '100%',
           gap: 3,
-          margin: '0 auto',
           border: 0,
+          paddingTop: 16,
           background: 'none',
         }}
       >

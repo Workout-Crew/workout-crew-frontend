@@ -5,11 +5,11 @@ import Button from '../../_components/Button'
 import Divider from '../../_components/Divider'
 import Spacing from '../../_components/Spacing'
 import Stack from '../../_components/Stack'
-import Text from '../../_components/Text'
 import { useSetTitle } from '../../_hooks/useSetTitle'
 import { useWriteRecord } from '../../_hooks/useWriteRecord'
-import { BORDER_COLOR, FONT_COLOR } from '../../_styles/color'
+import { FONT_COLOR } from '../../_styles/color'
 import { getExercise } from '../../_utils/exercise'
+import ItemSelector from '../_components/ItemSelector'
 import { format } from 'date-fns'
 
 interface Props {
@@ -80,21 +80,7 @@ export default function RecordWritePage({
       <Stack style={{ gap: 16, padding: 0 }}>
         {render()}
 
-        <button
-          onClick={handleAddItem}
-          style={{
-            width: '100%',
-            padding: '20px 0',
-            borderRadius: 8,
-            border: `2px dashed ${BORDER_COLOR.button}`,
-            background: 'transparent',
-            textAlign: 'center',
-          }}
-        >
-          <Text typography="title2" fontColor={FONT_COLOR.placeholder}>
-            + 요소 추가하기
-          </Text>
-        </button>
+        <ItemSelector handleAddItem={handleAddItem} />
 
         <Button
           size={48}

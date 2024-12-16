@@ -30,7 +30,7 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <NavigationContainer ref={navigationRef}>
-        <StatusBar backgroundColor="#ffffff" barStyle="light-content" />
+        <StatusBar backgroundColor="#ffffff" barStyle="dark-content" />
         <SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff' }}>
           <RootStack />
         </SafeAreaView>

@@ -15,6 +15,7 @@ const TokenLoader = dynamic(() => import('./_components/TokenLoader'), {
 const pretendard = localFont({
   src: './_styles/pretendard.woff2',
   display: 'swap',
+  weight: '45 920',
   variable: '--font-pretendard',
 })
 

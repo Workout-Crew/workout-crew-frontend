@@ -7,12 +7,10 @@ import ChartImage from '../../_assets/intro/chart.png'
 import FireImage from '../../_assets/intro/fire.png'
 import RocketImage from '../../_assets/intro/rocket.png'
 import TargetImage from '../../_assets/intro/target.png'
-import Button from '../../_components/Button'
 import Spacing from '../../_components/Spacing'
 import Stack from '../../_components/Stack'
 import Text from '../../_components/Text'
 import { SHAPE_COLOR } from '../../_styles/color'
-import { getTodayDate } from '../../_utils/date'
 import { getExercise } from '../../_utils/exercise'
 import { useBridgeStore } from '../../provider'
 
@@ -67,7 +65,6 @@ const INTROS: Array<IntroUtilsType> = [
 export default function Intro() {
   const { data } = useGetExerciseRecommendation()
   const nickname = useBridgeStore(store => store.user?.nickname)
-  const push = useBridgeStore(store => store.push)
   const [{ image, getTitle }] = useState<IntroUtilsType>(
     INTROS[Math.floor(Math.random() * INTROS.length)]!,
   )
@@ -108,14 +105,6 @@ export default function Intro() {
           </Text>
         )}
       </div>
-
-      <Button
-        size={48}
-        variant="primary"
-        onClick={() => push(`/record/write?date=${getTodayDate()}`)}
-      >
-        오늘의 운동 기록하기
-      </Button>
     </Stack>
   )
 }

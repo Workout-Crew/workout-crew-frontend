@@ -4,9 +4,7 @@ import { useCreateExerciseLog } from '../_api/exercise-log/useCreateExerciseLog'
 import { ExerciseType } from '../_api/model'
 import BottomSheet from '../_components/BottomSheet'
 import Divider from '../_components/Divider'
-import Stack from '../_components/Stack'
 import Text from '../_components/Text'
-import { BORDER_COLOR } from '../_styles/color'
 import { EXERCISE } from '../_utils/exercise'
 import { base64ToFile, getRandomName } from '../_utils/image'
 import { useBridgeStore } from '../provider'
@@ -25,47 +23,10 @@ type MetadataType = {
   gatheringId: number | null
 }
 
-type ContentType = Array<
+export type ContentType =
   | { type: 'MEMO'; data: string }
   | { type: 'INTENSITY'; data: 0 | 1 | 2 | 3 | 4 | 5 }
   | { type: 'IMAGE'; data: string[] }
->
-
-const RECORD_TYPE = {
-  MEMO: {
-    title: '자유 메모',
-    description: '사용자가 자유롭게 내용을 작성할 수 있는 요소입니다.',
-  },
-  HEALTH_MEMO: {
-    title: '헬스 기록 (메모 템플릿)',
-    description: '종류 / 중량 / 세트 / 반복 횟수를 작성할 수 있는 요소입니다.',
-  },
-  RUNNING_MEMO: {
-    title: '유산소 기록 (메모 템플릿)',
-    description: '거리 / 시간 등을 작성할 수 있는 요소입니다.',
-  },
-  INTENSITY: {
-    title: '운동 강도',
-    description: '사용자가 느낀 강도를 별점을 통해 표현할 수 있는 요소입니다.',
-  },
-  IMAGE: {
-    title: '사진 기록',
-    description: '운동 과정 또는 결과 사진을 업로드할 수 있는 요소입니다.',
-  },
-} as const
-
-const TEMPLATE = {
-  health: `운동 종류 : 
-중량 :
-세트 :
-반복 횟수 :
--------------------
-(위 템플릿을 반복해서 작성해주세요.)
-`,
-  running: `운동 장소 : 
-거리 : 
-시간 : `,
-}
 
 export function useWriteRecord(
   date: Date,
@@ -85,7 +46,7 @@ export function useWriteRecord(
     exerciseType,
     gatheringId: gatheringId ? parseInt(gatheringId) : null,
   })
-  const [contents, setContents] = useState<ContentType>([])
+  const [contents, setContents] = useState<ContentType[]>([])
 
   const handleSetTitle = (title: string) =>
     setMetadata(prev => ({ ...prev, title }))
@@ -153,69 +114,31 @@ export function useWriteRecord(
     }
   }
 
-  const handleAddItem = async () => {
-    const selected = await new Promise<keyof typeof RECORD_TYPE | null>(
-      resolve =>
-        overlay.open(({ exit }) => (
-          <BottomSheet
-            title="요소 추가하기"
-            onClose={() => {
-              exit()
-              resolve(null)
-            }}
-          >
-            <Stack style={{ gap: 8, padding: 0 }}>
-              {Object.entries(RECORD_TYPE).map(
-                ([key, { title, description }]) => (
-                  <div
-                    onClick={() => {
-                      exit()
-                      resolve(key as keyof typeof RECORD_TYPE)
-                    }}
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      padding: 16,
-                      borderRadius: 8,
-                      border: `1px solid ${BORDER_COLOR.button}`,
-                    }}
-                    key={key}
-                  >
-                    <Text typography="title2">{title}</Text>
-                    <Text typography="body2">{description}</Text>
-                  </div>
-                ),
-              )}
-            </Stack>
-          </BottomSheet>
-        )),
-    )
-
-    if (selected) {
-      switch (selected) {
-        case 'MEMO':
-          setContents(prev => [...prev, { type: 'MEMO', data: '' }])
-          break
-        case 'HEALTH_MEMO':
-          setContents(prev => [
-            ...prev,
-            { type: 'MEMO', data: TEMPLATE.health },
-          ])
-          break
-        case 'RUNNING_MEMO':
-          setContents(prev => [
-            ...prev,
-            { type: 'MEMO', data: TEMPLATE.running },
-          ])
-          break
-        case 'INTENSITY':
-          setContents(prev => [...prev, { type: 'INTENSITY', data: 0 }])
-          break
-        case 'IMAGE':
-          setContents(prev => [...prev, { type: 'IMAGE', data: [] }])
-          break
-      }
-    }
+  const handleAddItem = async (item: ContentType) => {
+    setContents(prev => [...prev, item])
+    // switch (selected) {
+    //   case 'MEMO':
+    //     setContents(prev => [...prev, { type: 'MEMO', data: '' }])
+    //     break
+    //   case 'HEALTH_MEMO':
+    //     setContents(prev => [
+    //       ...prev,
+    //       { type: 'MEMO', data: TEMPLATE.health },
+    //     ])
+    //     break
+    //   case 'RUNNING_MEMO':
+    //     setContents(prev => [
+    //       ...prev,
+    //       { type: 'MEMO', data: TEMPLATE.running },
+    //     ])
+    //     break
+    //   case 'INTENSITY':
+    //     setContents(prev => [...prev, { type: 'INTENSITY', data: 0 }])
+    //     break
+    //   case 'IMAGE':
+    //     setContents(prev => [...prev, { type: 'IMAGE', data: [] }])
+    //     break
+    // }
   }
 
   const handleChangeMemo = (event: ChangeEvent<HTMLTextAreaElement>) =>

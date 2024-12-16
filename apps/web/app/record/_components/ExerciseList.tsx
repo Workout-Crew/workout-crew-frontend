@@ -20,7 +20,7 @@ export default function ExerciseList({ date }: Props) {
 
   return (
     <Stack style={{ gap: 20, padding: 16 }}>
-      <Text typography="title1">{format(date, 'dd')}일 운동 기록</Text>
+      <Text typography="title1">{format(date, 'd')}일 운동 기록</Text>
 
       {!isFetching && (
         <Stack style={{ gap: 16, padding: 0 }}>
